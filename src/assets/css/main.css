@@ -1,0 +1,43 @@
+@import url(base.css);
+
+@font-face {
+  font-family: OpenSans;
+  src: url(../Fonts/OpenSans-Regular.ttf);
+}
+
+@font-face {
+  font-family: OpenSans Bold;
+  src: url(../Fonts/OpenSans-Bold.ttf);
+}
+
+@font-face {
+  font-family: OpenSans Italic;
+  src: url(../Fonts/OpenSans-Italic.ttf);
+}
+
+@font-face {
+  font-family: OpenSans Semibold;
+  src: url(../Fonts/OpenSans-Semibold.ttf);
+}
+
+html {
+  font-size: 62.5%;
+  font-family: OpenSans;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  font-size: 13px;
+}
+
+:root {
+  --main-color: #03ae66;
+  --bgc-menu-sidebar: #24344b;
+  --btn-green-hover: #02bf70;
+  --bgc-active-menu-sidebar: #404f64;
+  --active-sidebar: #0dd469;
+  --line-gridpanel-color: #d5d8e6;
+  --header-gridpanel-color: #f5f6fa;
+  --overlay-color: #101114a0;
+}
