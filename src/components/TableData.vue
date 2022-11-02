@@ -23,22 +23,27 @@
             <td class="df-center">
               <Checkbox v-model="e.checked" />
             </td>
-            <td>{{ e.code }}</td>
-            <td>{{ e.name }}</td>
-            <td>{{ e.phone }}</td>
-            <td>{{ e.tcm }}</td>
-            <td>{{ e.qltbm }}</td>
-            <td>{{ e.qlkp }}</td>
+            <td>{{ e.employeeCode }}</td>
+            <td>{{ e.employeeName }}</td>
+            <td>{{ e.phoneNumber }}</td>
+            <td>{{ e.department }}</td>
+            <td>{{ e.employeeSubject }}</td>
+            <td>{{ e.employeeRoom }}</td>
             <td class="center">
-              <span :class="e.dtqltb ? 'data - checked' : ''"></span>
+              <span
+                :class="e.IsEquipmentManagement ? 'data-checked' : ''"
+              ></span>
             </td>
             <td class="center">
-              <span :class="e.isWorking ? 'data - checked' : ''"></span>
+              <span :class="e.isWorking ? 'data-checked' : ''"></span>
             </td>
             <td>
               <div class="btn-action-wrapper">
-                <div class="btn-action btn-edit"></div>
-                <div class="btn-action btn-remove"></div>
+                <div class="btn-action btn-edit" @click="edit(e)"></div>
+                <div
+                  class="btn-action btn-remove"
+                  @click="remove(e.employeeCode)"
+                ></div>
               </div>
             </td>
           </tr>
@@ -51,7 +56,14 @@
 <script setup>
 import Checkbox from "@/components/Checkbox.vue";
 import { Data } from "@/helpers/Data.js";
-import { ref, watch } from "vue";
+import { ref, watch, inject } from "vue";
+
+const states = inject("states");
+let employee = inject("employeeModel");
+
+const showDialog = () => {
+  states.dialog.show = true;
+};
 
 const selectAll = ref(false);
 const selected = ref([]);
@@ -65,6 +77,23 @@ watch(
     });
   }
 );
+
+function remove(code) {
+  let i = Data.value.findIndex((e) => e.employeeCode === code);
+  if (i >= 0) {
+    Data.value.splice(i, 1);
+  }
+}
+
+function edit(e) {
+  states.dialog.form = "edit";
+  console.log(employee);
+  employee = Object.assign({}, {});
+  employee.employeeName = e.employeeName;
+  employee.employeeSubject = [];
+  employee.employeeRoom = [];
+  showDialog();
+}
 </script>
 
 <style lang="scss" scoped>
@@ -73,6 +102,9 @@ watch(
 /*  border-bottom: 1px solid var(--line-gridpanel-color);*/
 /*}*/
 
+tr td:first-child {
+  height: 40px;
+}
 .center {
   text-align: center;
 }
@@ -130,7 +162,7 @@ watch(
   overflow-y: scroll;
 }
 .table-data {
-  border-collapse: collapse;
+  // border-collapse: collapse;
   border-collapse: separate;
   min-width: max-content;
   width: 100%;

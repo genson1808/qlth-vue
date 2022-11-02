@@ -17,7 +17,6 @@
 import UniqueID from "@/helpers/UniqueID.js";
 
 const ipId = UniqueID().getID();
-console.log(ipId);
 
 const props = defineProps({
   modelValue: {

@@ -4,7 +4,6 @@
     type="checkbox"
     class="field"
     @change="$emit('update:viewModel', $event.target.checked)"
-    @input="$emit('update:viewModel', $event.target.checked)"
   />
 </template>
 

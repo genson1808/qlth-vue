@@ -17,9 +17,16 @@ import Sidebar from "@/components/Sidebar.vue";
 import Header from "@/components/Header.vue";
 import { provide, reactive } from "vue";
 
+/**
+ * state for home page
+ */
 const states = reactive({
   collapsed: false,
   menuItemActivated: 0,
+  dialog: {
+    show: false,
+    form: "create", // create | edit
+  },
 });
 
 provide("states", states);

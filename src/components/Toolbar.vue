@@ -7,14 +7,22 @@
       </div>
     </div>
     <div class="toolbar-right dflex">
-      <div class="btn btn--green btn-add">Thêm</div>
+      <div class="btn btn--green btn-add" @click="openDialog">Thêm</div>
       <div class="btn btn--white btn-export">Xuất khẩu</div>
       <div class="more-action pointer btn--white"></div>
     </div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { inject } from "vue";
+const states = inject("states");
+
+const openDialog = () => {
+  states.dialog.form = "create";
+  states.dialog.show = true;
+};
+</script>
 
 <style lang="scss" scoped>
 .top-toolbar {
