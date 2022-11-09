@@ -1,133 +1,81 @@
 <template>
-  <Teleport
-    to="#dialog-contain"
-    :disabled="!states.dialog.show"
-    v-if="states.dialog.show"
-  >
-    <div class="dialog">
-      <div class="dialog__body" ref="dialog">
-        <div class="wrapper__left">
-          <div class="body__left">
-            <div class="img-box">
-              <img src="@/assets/Icons/default_avatar.png" alt="" />
-            </div>
-            <div class="btn-upload">Chọn ảnh</div>
-            <div class="info-box">
-              <h4 class="fullname">
-                {{
-                  employee.employeeName ? employee.employeeName : "Họ và tên"
-                }}
-              </h4>
-              <h5 class="code">
-                {{ employee.employeeCode ? employee.employeeCode : "SHC001" }}
-              </h5>
-            </div>
+  <div class="dialog">
+    <div class="dialog__body" ref="dialog">
+      <div class="wrapper__left">
+        <div class="body__left">
+          <div class="img-box">
+            <img src="@/assets/Icons/default_avatar.png" alt="" />
+          </div>
+          <div class="btn-upload">Chọn ảnh</div>
+          <div class="info-box">
+            <h4 class="fullname"> {{ employee.employeeName ? employee.employeeName : "Họ và tên" }} </h4>
+            <h5 class="code"> {{ employee.employeeCode ? employee.employeeCode : "SHC001" }} </h5>
           </div>
         </div>
-        <div class="body__right">
-          <div class="add__employee--dialog">
-            <div class="title">
-              {{
-                states.dialog.form === "create"
-                  ? "Thêm hồ sơ cán bộ, giáo viên"
-                  : "Chỉnh sửa hồ sơ cán bộ, giáo viên"
-              }}
-            </div>
-
-            <form id="add-employee-form">
-              <div class="form-wrapper">
-                <BaseInput
-                  :required="true"
-                  name="employeeCode"
-                  :error="errors.code"
-                  v-model="employee.employeeCode"
-                  label="Số hiệu cán bộ"
-                  class="form-stack-1"
-                />
-                <BaseInput
-                  :required="true"
-                  name="employeeName"
-                  :error="errors.name"
-                  v-model="employee.employeeName"
-                  label="Họ và tên"
-                  class="form-stack-2"
-                />
-                <BaseInput
-                  name="phoneNumber"
-                  :error="errors.phone"
-                  v-model="employee.phoneNumber"
-                  label="Số điện thoại"
-                  class="form-stack-3"
-                />
-                <BaseInput
-                  name="email"
-                  :error="errors.email"
-                  v-model="employee.email"
-                  label="Email"
-                  class="form-stack-4"
-                />
-                <div class="form-stack-5 input-stack">
-                  <div class="wrap-label">
-                    <label title="Tổ bộ môn">Tổ bộ môn</label>
-                  </div>
-
-                  <Dropdown v-model="employee.department" />
+      </div>
+      <div class="body__right">
+        <div class="add__employee--dialog">
+          <div class="title"> 
+            {{
+  formType == "create" ?
+    'Thêm hồ sơ cán bộ, giáo viên' :
+    'Chỉnh sửa hồ sơ cán bộ giáo viên'}}</div>
+          <form id="add-employee-form">
+            <div class="form-wrapper">
+              <BaseInput :required="true" name="employeeCode" :error="errors.code" v-model="employee.employeeCode"
+                label="Số hiệu cán bộ" class="form-stack-1" />
+              <BaseInput :required="true" name="employeeName" :error="errors.name" v-model="employee.employeeName"
+                label="Họ và tên" class="form-stack-2" />
+              <BaseInput name="phoneNumber" :error="errors.phone" v-model="employee.phoneNumber" label="Số điện thoại"
+                class="form-stack-3" />
+              <BaseInput name="email" :error="errors.email" v-model="employee.email" label="Email"
+                class="form-stack-4" />
+              <div class="form-stack-5 input-stack">
+                <div class="wrap-label">
+                  <label title="Tổ bộ môn">Tổ bộ môn</label>
                 </div>
-                <div class="form-stack-6 input-stack">
-                  <div class="wrap-label">
-                    <label title="Quản lý theo môn">QL theo môn</label>
-                  </div>
-                  <Combobox v-model="employee.employeeSubject" />
+                <Dropdown v-model="employee.department" :data="getDepartments" />
+              </div>
+              <div class="form-stack-6 input-stack">
+                <div class="wrap-label">
+                  <label title="Quản lý theo môn">QL theo môn</label>
                 </div>
-                <div class="form-stack-7 input-stack">
-                  <div class="wrap-label">
-                    <label title="Quản lý kho, phòng">QL kho, phòng</label>
-                  </div>
-                  <Combobox v-model="employee.employeeRoom" :width="580" />
+                <Combobox v-model="employee.employeeSubject" :data="getSubjects" />
+              </div>
+              <div class="form-stack-7 input-stack">
+                <div class="wrap-label">
+                  <label title="Quản lý kho, phòng">QL kho, phòng</label>
                 </div>
-                <div class="form-stack-8 input-stack">
-                  <div class="checkbox-wrapper">
-                    <Checkbox v-model="employee.IsEquipmentManagement" />
-                    <span class="cb-value ml-8"> Trình độ nghiệp vụ QLTB </span>
-                  </div>
-                  <div class="checkbox-wrapper">
-                    <Checkbox v-model="employee.isWorking" />
-                    <span class="cb-value ml-8"> Đang làm việc</span>
-                  </div>
-                  <div
-                    class="day-off"
-                    :class="employee.isWorking ? 'day-off--hidden' : ''"
-                  >
-                    <div>
-                      <label
-                        for="day-off-cb"
-                        title="Ngày nghỉ việc"
-                        class="checkbox__label"
-                      ></label>
-                      <span class="cb-value mr-8"> Ngày nghỉ việc </span>
-                      <input type="date" id="day-off-cb" />
-                    </div>
-                  </div>
+                <Combobox v-model="employee.employeeRoom" :data="getRooms" :width="580" />
+              </div>
+              <div class="form-stack-8 input-stack">
+                <div class="checkbox-wrapper">
+                  <Checkbox v-model="employee.IsEquipmentManagement" />
+                  <span class="cb-value ml-8"> Trình độ nghiệp vụ QLTB </span>
                 </div>
-                <div class="form-stack-9 input-stack">
-                  <div
-                    class="btn__close--dialog btn btn--white mr-8"
-                    @click="closeDialog"
-                  >
-                    Đóng
-                  </div>
-                  <div class="btn__save btn btn--green mr-0" @click="submit">
-                    Lưu
+                <div class="checkbox-wrapper">
+                  <Checkbox v-model="employee.isWorking" />
+                  <span class="cb-value ml-8"> Đang làm việc</span>
+                </div>
+                <div class="day-off" :class="employee.isWorking ? 'day-off--hidden' : ''">
+                  <div>
+                    <label for="day-off-cb" title="Ngày nghỉ việc" class="checkbox__label"></label>
+                    <span class="cb-value mr-8"> Ngày nghỉ việc </span>
+                    <input type="date" id="day-off-cb" />
                   </div>
                 </div>
               </div>
-            </form>
-          </div>
+              <div class="form-stack-9 input-stack">
+                <div class="btn__close--dialog btn btn--white mr-8" @click="closeDialog"> Đóng </div>
+                <div class="btn__save btn btn--green mr-0" @click="submit"> Lưu </div>
+              </div>
+            </div>
+          </form>
         </div>
-        <div class="close--dialog" @click="closeDialog"></div>
       </div>
+      <div class="close--dialog" @click="closeDialog"></div>
     </div>
-  </Teleport>
+  </div>
 </template>
 
 <script setup>
@@ -135,37 +83,71 @@ import BaseInput from "@/components/BaseInput.vue";
 import Combobox from "@/components/Combobox.vue";
 import Dropdown from "@/components/Dropdown.vue";
 import Checkbox from "@/components/Checkbox.vue";
+import { useStore } from 'vuex';
 import { useClickOutside } from "@/use/useClickOutside.js";
 import { validate } from "@/helpers/validator.js";
 import { Data } from "@/helpers/Data.js";
+import { ref, reactive, watch, computed } from "vue";
+import axios from "axios";
 
-import { inject, ref, reactive, watch } from "vue";
-
-const states = inject("states");
-const employee = inject("employeeModel");
-
-console.log(employee);
-
-watch(
-  () => employee.employeeRoom,
-  () => {
-    console.log("----", employee.employeeRoom);
+const props = defineProps({
+  modelValue: {
+    type: Object,
+    default: {
+      employeeName: "",
+      employeeCode: "",
+      phoneNumber: "",
+      email: "",
+      employeeRoom: [],
+      employeeSubject: [],
+      department: "",
+      IsEquipmentManagement: false,
+      isWorking: true,
+    },
+  },
+  showDialog: {
+    type: Boolean,
+    required: true,
+  },
+  formType: {
+    type: String,
+    default: "create"
   }
-);
+});
+const emit = defineEmits(['update:modelValue', 'update:showDialog'])
 
-const val = ref("hello");
+const employee = reactive({ ...props.modelValue })
+
+const store = useStore();
+
+
+const getDepartments = computed(() => {
+  const m = new Map();
+  Array.from(store.getters.departments).forEach(e => {
+    m.set(e.DepartmentID, e.DepartmentName);
+  })
+  return m;
+})
+
+const getSubjects = computed(() => {
+  const m = new Map();
+  Array.from(store.getters.subjects).forEach(e => {
+    m.set(e.SubjectID, e.SubjectName);
+  })
+  return m;
+})
+
+const getRooms = computed(() => {
+  const m = new Map();
+  Array.from(store.getters.rooms).forEach(e => {
+    m.set(e.RoomID, e.RoomName);
+  })
+  return m;
+});
+
 
 const closeDialog = () => {
-  states.dialog.show = false;
-  // employee.employeeName = "";
-  // employee.employeeCode = "";
-  // employee.phoneNumber = "";
-  // employee.email = "";
-  // employee.employeeRoom = [];
-  // employee.employeeSubject = [];
-  // employee.department = "";
-  // employee.IsEquipmentManagement = false;
-  // employee.isWorking = true;
+  emit('update:showDialog', false)
 };
 
 const dialog = ref(null);
@@ -178,22 +160,69 @@ const errors = reactive({
   phone: "",
 });
 
+
+watch(() => employee.employeeCode, () => {
+  errors["code"] = validate(["required"], employee.employeeCode)[0];
+})
+
+watch(() => employee.employeeName, () => {
+  errors["name"] = validate(["required"], employee.employeeName)[0];
+})
+
+watch(
+  () => employee.email,
+  () => {
+    if (employee.email != '') {
+      errors["email"] = validate(["email"], employee.email)[0];
+    } else {
+      errors["email"] = ''
+    }
+  }
+)
+
+watch(
+  () => employee.phoneNumber,
+  () => {
+    if (employee.phoneNumber != '') {
+      errors["phone"] = validate(["phone"], employee.phoneNumber)[0];
+    } else {
+      errors["phone"] = ''
+    }
+  }
+)
+
 function submit() {
   errors["code"] = validate(["required"], employee.employeeCode)[0];
   errors["name"] = validate(["required"], employee.employeeName)[0];
-  errors["email"] = validate(["email"], employee.email)[0];
   errors["phone"] = validate(["phone"], employee.phoneNumber)[0];
 
   if (!errors.code && !errors.name && !errors.email && !errors.phone) {
-    employee.employeeRoom = employee.employeeRoom
-      ? employee.employeeRoom.join(",")
-      : "";
-    employee.employeeSubject = employee.employeeSubject
-      ? employee.employeeSubject.join(",")
-      : "";
-    Data.value.push(employee);
-    console.log(Data.value);
-    closeDialog();
+    const createEmployee = async (employee) => {
+      try {
+        store.dispatch('setLoading', true)
+        const res = await axios.post("http://localhost:5098/api/v1/employees", employee)
+        store.dispatch('setLoading', false)
+        console.log(res)
+        if (res.status == 201) {
+          store.dispatch('addToast', {
+            title: 'Thành công',
+            type: 'success',
+            message: 'thêm mới cán bộ, giáo viên thành công',
+          });
+        }
+      } catch (e) {
+        console.log(e)
+        store.dispatch('setLoading', false)
+      }
+    }
+    const data = {
+      employeeName: employee.employeeName,
+      employeeCode: employee.employeeCode,
+      email: employee.email,
+      phoneNumber: employee.phoneNumber,
+      departmentID: employee.department,
+    }
+    createEmployee(data);
   }
 }
 </script>
@@ -358,6 +387,7 @@ function submit() {
   flex-direction: column;
   margin-top: 20px;
 }
+
 .input-stack {
   display: flex;
   justify-content: space-between;
@@ -387,29 +417,35 @@ button {
   grid-column-start: 1;
   grid-column-end: 2;
 }
+
 .form-stack-2 {
   grid-column-start: 2;
   grid-column-end: 3;
 }
+
 .form-stack-3 {
   grid-column-start: 1;
   grid-column-end: 2;
 }
+
 .form-stack-4 {
   grid-column-start: 2;
   grid-column-end: 3;
 }
+
 .form-stack-5 {
   grid-column-start: 1;
   grid-column-end: 2;
   width: 320px;
 }
+
 .form-stack-6 {
   grid-column-start: 2;
   grid-column-end: 3;
   position: relative;
   width: 320px;
 }
+
 .form-stack-7 {
   grid-column-start: 1;
   grid-column-end: 3;
@@ -467,6 +503,10 @@ input[type="date"] {
   border: 1px solid var(--line-gridpanel-color);
   border-radius: 4px;
   padding-left: 12px;
+}
+
+.input--error {
+  border: '1px solid #ff8b87'
 }
 
 .ml-8 {

@@ -4,15 +4,11 @@
       <div>
         <p class="selected">
           <span class="wrap-item" v-if="checkedAll">
-            <span class="selected-item" :title="e"
-              >Tất cả<span class="remove-item" @click="removeAll"></span> </span
-          ></span>
-
+            <span class="selected-item">Tất cả<span class="remove-item" @click="removeAll"></span>
+            </span></span>
           <span v-else class="wrap-item" v-for="(e, i) in selected" :key="i">
-            <span class="selected-item" :title="e"
-              >{{ e
-              }}<span class="remove-item" @click="remove(i)"></span> </span
-          ></span>
+            <span class="selected-item" :title="e">{{ data.get(e) }}<span class="remove-item" @click="remove(i)"></span>
+            </span></span>
         </p>
       </div>
       <div class="toggle-combobox" @click="toggle"></div>
@@ -21,30 +17,17 @@
       <ul :class="!show ? 'combobox--hide' : ''" ref="showItem">
         <li class="check-all">
           <div class="checkbox" ref="pr" tabindex="0">
-            <input
-              @change="onCheckAll"
-              :checked="checkedAll"
-              type="checkbox"
-              :id="cbAllId"
-              class="checkbox__input"
-            />
+            <input @change="onCheckAll" :checked="checkedAll" type="checkbox" :id="cbAllId" class="checkbox__input" />
             <label :for="cbAllId" class="checkbox__checkmark"></label>
           </div>
           <div class="title">Tất cả</div>
         </li>
-
-        <li class="combobox__item" v-for="(e, i) in items">
+        <li class="combobox__item" v-for="[value, title] in data">
           <div class="checkbox" ref="pr" tabindex="0">
-            <input
-              v-model="selected"
-              :value="e"
-              type="checkbox"
-              :id="prefixCb + i"
-              class="checkbox__input"
-            />
-            <label :for="prefixCb + i" class="checkbox__checkmark"></label>
+            <input v-model="selected" :value="value" type="checkbox" :id="value" class="checkbox__input" />
+            <label :for="value" class="checkbox__checkmark"></label>
           </div>
-          <div class="title">{{ e }}</div>
+          <div class="title">{{ title }}</div>
         </li>
       </ul>
     </div>
@@ -56,7 +39,7 @@ import { computed, ref, watch } from "vue";
 import { useClickOutside } from "@/use/useClickOutside.js";
 import UniqueID from "@/helpers/UniqueID.js";
 
-defineProps({
+const props = defineProps({
   width: {
     type: Number,
     default: 200,
@@ -65,18 +48,25 @@ defineProps({
     type: Array,
     default: [],
   },
+  data: {
+    type: Map,
+    required: true,
+  }
 });
 const emit = defineEmits(["update:modelValue"]);
 
 const cbAllId = UniqueID().getID();
-const prefixCb = `cb-${UniqueID().getID()}-`;
 const show = ref(false);
 
 const selected = ref([]);
 const checkedAll = computed(() => {
-  return items.value.length === selected.value.length;
+  return props.data.size === selected.value.length;
 });
 
+/**
+ * Xử lý close dropdown khi click ngoài phạm vi của combobox
+ * @author SONTB (08/11/2022)
+ */
 const showItem = ref(null);
 const parent = ref(null);
 
@@ -84,37 +74,53 @@ useClickOutside(showItem, parent, () => {
   show.value = false;
 });
 
-const items = ref([
-  "oto",
-  "xe may",
-  "xe dap",
-  "may bay",
-  "tau dien",
-  "xe lua",
-  "xich lo",
-]);
 
+/**
+ * Theo dõi các checkbox checked và unchecked và
+ * update modelValue parent truyền vào
+ * @author SONTB (08/11/2022)
+ */
 watch(selected, () => {
-  console.log("change cb");
   emit("update:modelValue", selected);
 });
 
+/**
+ * Xử lý remove tag
+ * @author SONTB (08/11/2022)
+ */
 function remove(id) {
   selected.value.splice(id, 1);
 }
 
+/**
+ * Remove all value đã select hay uncheck tất cả checkbox
+ * @author SONTB (08/11/2022)
+ */
 function removeAll() {
   selected.value = selected.value.splice(0, selected.length);
 }
 
+
+/**
+ * Xử lý sự kiện check all checkbox
+ * @param {*} e event
+ * @author SONTB (08/11/2022)
+ */
 function onCheckAll(e) {
+  // nếu checked thì add hết value vào selected
   if (e.target.checked) {
-    selected.value = items.value.slice();
-  } else {
+    for (let key of props.data.keys()) {
+      selected.value.push(key);
+    }
+  }
+  else { // Nếu unchecked thì remove các value đã checked
     selected.value = selected.value.splice(0, selected.length);
   }
 }
 
+/**
+ * toggle dropdown của combobox
+ */
 function toggle() {
   show.value = !show.value;
 }
@@ -124,6 +130,7 @@ function toggle() {
 .wrap-item {
   margin: 2px 2px;
 }
+
 .selected-item {
   position: relative;
   display: flex;
@@ -200,6 +207,7 @@ function toggle() {
     opacity: 0;
     display: none;
   }
+
   .combobox__list ul {
     height: 180px;
     border-radius: 4px;
@@ -251,6 +259,7 @@ function toggle() {
           background-color: #03ae66;
           border: none;
         }
+
         &:after {
           opacity: 1;
           visibility: visible;
@@ -259,6 +268,7 @@ function toggle() {
     }
   }
 }
+
 .checkbox {
   display: flex;
   width: 20px;
@@ -267,10 +277,12 @@ function toggle() {
   &:focus {
     border-radius: 4px;
   }
+
   .checkbox__checkmark {
     position: relative;
     padding-left: 2rem;
     cursor: pointer;
+
     &:before {
       content: "";
       width: 2rem;
@@ -284,6 +296,7 @@ function toggle() {
       border-radius: 4px;
       box-sizing: border-box;
     }
+
     &:after {
       content: "";
       position: absolute;

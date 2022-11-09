@@ -10,11 +10,11 @@ const routes = [
     name: "home",
     component: HomeView,
     children: [
-      { path: "overview", component: Overview },
-      { path: "device", component: Device },
-      { path: "borrow-and-give-back", component: Device },
-      { path: "report", component: Device },
-      { path: "system", component: Device },
+      { path: "overview", component: Overview, name: "overview" },
+      { path: "device", component: Device, name: "device" },
+      { path: "borrow-and-give-back", component: Device, name: "borrow-and-give-back" },
+      { path: "report", component: Device, name: "report" },
+      { path: "system", component: Device, name: "y" },
     ],
   },
   {

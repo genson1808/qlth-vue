@@ -10,9 +10,9 @@
     <div class="toggle-dropdown" @click="toggle"></div>
     <div class="options">
       <ul :class="show ? '' : 'dropdown-hide'" ref="showItem">
-        <li v-for="(e, i) in items" :key="i" @click="select(e)">
+        <li v-for="[key, value] in data" :key="key" @click="select(key)">
           <a href="#"
-            >{{ e }}<span class="value">{{ e }}</span></a
+            >{{ value }}<span class="value">{{ value }}</span></a
           >
         </li>
       </ul>
@@ -24,30 +24,20 @@
 import { ref, watch } from "vue";
 import { useClickOutside } from "@/use/useClickOutside.js";
 
-defineProps({
+const props = defineProps({
   modelValue: {
     type: String,
     require: true,
   },
+  data: {
+    type: Map,
+    require: true,
+  }
 });
 
 const emit = defineEmits(["update:modelValue"]);
 
-const items = ref([
-  "Tổ Anh-Văn",
-  "Tổ chuyên môn",
-  "Tổ Hóa - Sinh",
-  "Tổ Lý - Công nghệ",
-  "Tổ Ngữ văn",
-  "Tổ Sử - Địa - GDCD",
-]);
-
-const selected = ref(items[0]);
-
-watch(selected, () => {
-  console.log("change");
-  emit("update:modelValue", selected);
-});
+const selected = ref('');
 
 const show = ref(false);
 
@@ -56,7 +46,9 @@ function toggle() {
 }
 
 function select(val) {
-  selected.value = val;
+  let valUpdate = props.data.get(val)
+  emit("update:modelValue", val);
+  selected.value = valUpdate;
   show.value = false;
 }
 

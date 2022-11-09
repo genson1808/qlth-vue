@@ -15,3 +15,6 @@ npm run dev
 ```sh
 npm run build
 ```
+
+[] table data xu ly check and uncheck all
+[] xu ly cacs button phan trang
