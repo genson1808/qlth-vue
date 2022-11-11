@@ -50,14 +50,16 @@
       </table>
     </div>
   </div>
-  <DialogConfirm v-show="showDialogConfirm" v-model="confirmRemove" v-model:show="showDialogConfirm" />
+  <DialogConfirm v-if="showDialogConfirm" v-model="confirmRemove" v-model:show="showDialogConfirm" />
+  <Dialog v-if="showDialog" v-model="dataEdit" v-model:showDialog="showDialog" :formType="edit" />
 </template>
 
 <script setup>
 import Checkbox from "@/components/Checkbox.vue";
-import { ref, watch, inject, onBeforeMount } from "vue";
+import { ref, watch, reactive } from "vue";
 import { useStore } from "vuex";
 import DialogConfirm from "./DialogConfirm.vue";
+import Dialog from "@/components/Dialog.vue";
 
 const props = defineProps({
   modelValue: {
@@ -66,10 +68,6 @@ const props = defineProps({
   },
   selected: {
     type: Array,
-    required: true,
-  },
-  paging: {
-    type: Object,
     required: true,
   }
 })
@@ -88,11 +86,11 @@ function remove(code) {
   removeID.value = code;
 }
 
-watch(() => confirmRemove.value, () => {
+watch(() => confirmRemove.value, async () => {
   if (confirmRemove.value && removeID.value != '') {
     console.log('xoas')
-    store.dispatch('removeEmployee', removeID.value)
-    store.dispatch("getEmployees", props.paging);
+    await store.dispatch('removeEmployee', removeID.value)
+    await store.dispatch("loadEmployees");
     confirmRemove.value = false;
     removeID.value = '';
   }
@@ -138,16 +136,14 @@ const appendRoom = (rooms) => {
 // ---------------------------------
 
 
-
-const states = inject("states");
-let employee = inject("employeeModel");
-
-const showDialog = () => {
-  states.dialog.show = true;
+const showDialog = ref(false)
+// Show dialog thêm cán bộ, giáo viên khi người
+// dùng lick vào button thêm
+const openDialog = () => {
+  showDialog.value = true;
 };
 
 const selectAll = ref(false);
-const selected = ref([]);
 
 watch(
   () => selectAll.value,
@@ -159,16 +155,17 @@ watch(
   }
 );
 
-
+let dataEdit = ref({ employeeName: "Demo" })
 
 function edit(e) {
-  states.dialog.form = "edit";
-  employee = Object.assign({}, {});
-  employee.employeeName = e.employeeName;
-  employee.employeeSubject = [];
-  employee.employeeRoom = [];
-  showDialog();
+  openDialog()
+  console.log(JSON.stringify(e))
+  const data = JSON.parse(JSON.stringify(e))
+  data.rooms = data.rooms.map(e => e.roomID)
+  data.subjects = data.subjects.map(e => e.subjectID)
+  dataEdit.value = data
 }
+
 </script>
 
 <style lang="scss" scoped>
@@ -345,6 +342,13 @@ tr td:first-child {
 
   &:focus {
     border-radius: 4px;
+    outline: none;
+  }
+
+  &:focus .checkbox__checkmark::before {
+    outline: none;
+    border-radius: 4px;
+    border: 1px solid #02bf70;
   }
 
   .checkbox__checkmark {

@@ -1,6 +1,6 @@
 <template>
   <div class="wp">
-    <h1>Device</h1>
+    <h1>Page thiết bị</h1>
     <button @click="created">create toast</button>
   </div>
 </template>

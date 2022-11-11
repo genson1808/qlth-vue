@@ -19,12 +19,12 @@
       </div>
     </div>
   </div>
-  <Dialog v-show="showDialog" v-model:showDialog="showDialog" :formType="create" />
-  <DialogConfirm v-show="showDialogConfirm" v-model="confirmRemove" v-model:show="showDialogConfirm" />
+  <Dialog v-if="showDialog" v-model:showDialog="showDialog" :formType="create" />
+  <DialogConfirm v-if="showDialogConfirm" v-model="confirmRemove" v-model:show="showDialogConfirm" />
 </template>
 
 <script setup>
-import { watch, ref } from "vue";
+import { watch, ref, computed } from "vue";
 import { useStore } from "vuex";
 import debounce from "@/helpers/Debounce.js"
 import Dialog from "@/components/Dialog.vue";
@@ -38,64 +38,72 @@ const props = defineProps({
   selected: {
     type: Array,
     required: true,
-  },
-  paging: {
-    type: Object,
-    required: true,
   }
 })
 
-const store = useStore();
-
 const emit = defineEmits(['update:modelValue', 'update:selected'])
-
-const showDialog = ref(false)
-
-const showMoreAction = ref(false)
-
-const keyword = ref('');
+const store = useStore();
 
 /**
  * Xử lý khi người dùng nhập tự nhập trang muốn đến sử dụng kỹ thuật debounce
  * để hạn chế việc all api backend nhiều lần
  * @author SONTB (08/11/2022)
  */
+
+const paging = computed(() => {
+  return store.getters.employeePaging;
+})
+
+const keyword = ref('');
+
 const onChangeDebounced = debounce(e => {
-  console.log(keyword.value)
   var filter = {
     EmployeeName: keyword.value,
   }
-  emit('update:modelValue', filter);
+  const newPaging = {
+    filters: filter,
+    pageNumber: paging.value.pageNumber,
+    pageSize: paging.value.pageSize,
+    sorts: paging.value.sorts
+  }
+  store.dispatch("setPaging", newPaging)
 }, 800);
+
+const showDialog = ref(false)
+// Show dialog thêm cán bộ, giáo viên khi người
+// dùng lick vào button thêm
+const openDialog = () => {
+  showDialog.value = true;
+};
+
 
 /**
  * Xoá nhiều
  * @author SONTB (09/11/2022)
  */
-const showDialogConfirm = ref(false)
-const removeID = ref('')
-const confirmRemove = ref(false)
 
+const showMoreAction = ref(false)
+
+// Xử lý show confirm dialog khi user thực hiện xoá nhiều
+const showDialogConfirm = ref(false)
 function remove() {
   if (props.selected.length > 0) {
     showDialogConfirm.value = true;
   }
 }
 
-watch(() => confirmRemove.value, () => {
+// Thực hiện xoá nhiều khi người dùng click button đồng ý
+const confirmRemove = ref(false)
+watch(() => confirmRemove.value, async () => {
   if (confirmRemove.value && props.selected.length > 0) {
-    store.dispatch('removeEmployees', [...props.selected])
-    store.dispatch("getEmployees", props.paging);
+    await store.dispatch('removeEmployees', [...props.selected])
+    // load lại data employee sau khi xoá nhiều
+    await store.dispatch("loadEmployees")
     confirmRemove.value = false;
     emit('update:selected', [])
-    console.log("xoa nhieu thanh cong")
   }
-})
+});
 
-
-const openDialog = () => {
-  showDialog.value = true;
-};
 </script>
 
 <style lang="scss" scoped>

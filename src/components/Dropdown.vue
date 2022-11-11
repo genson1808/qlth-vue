@@ -1,19 +1,13 @@
 <template>
   <div class="drop-down" ref="parent">
-    <div class="selected" tabindex="0">
-      <a href="#" autofocus
-        ><span
-          >{{ selected }}<span class="value">{{ selected }}</span></span
-        ></a
-      >
+    <div class="selected" :class="show ? 'focus' : ''" tabindex="0">
+      <p href="#"><span>{{ selected }}<span class="value">{{ selected }}</span></span></p>
     </div>
     <div class="toggle-dropdown" @click="toggle"></div>
     <div class="options">
       <ul :class="show ? '' : 'dropdown-hide'" ref="showItem">
         <li v-for="[key, value] in data" :key="key" @click="select(key)">
-          <a href="#"
-            >{{ value }}<span class="value">{{ value }}</span></a
-          >
+          <p href="#">{{ value }}<span class="value">{{ value }}</span></p>
         </li>
       </ul>
     </div>
@@ -21,7 +15,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref, onMounted } from "vue";
 import { useClickOutside } from "@/use/useClickOutside.js";
 
 const props = defineProps({
@@ -38,6 +32,9 @@ const props = defineProps({
 const emit = defineEmits(["update:modelValue"]);
 
 const selected = ref('');
+onMounted(() => {
+  selected.value = props.data.get(props.modelValue)
+});
 
 const show = ref(false);
 
@@ -70,20 +67,12 @@ useClickOutside(showItem, parent, () => {
 }
 
 .drop-down .selected {
-  &:focus {
-    outline: none;
-    border-radius: 4px;
-    border: 1px solid #02bf70;
-  }
-}
-.drop-down .selected a {
-  background: #fff no-repeat scroll right center;
-  display: block;
-  padding-right: 20px;
   border: 1px solid var(--line-gridpanel-color);
   width: 100%;
   border-radius: 4px;
-  text-decoration: none;
+  height: 32px;
+  padding-right: 20px;
+
   &:focus {
     outline: none;
     border-radius: 4px;
@@ -91,7 +80,13 @@ useClickOutside(showItem, parent, () => {
   }
 }
 
-.drop-down .selected a span {
+.drop-down .focus {
+  outline: none;
+  border-radius: 4px;
+  border: 1px solid #02bf70;
+}
+
+.drop-down .selected p span {
   cursor: pointer;
   display: block;
   height: 32px;
@@ -144,7 +139,7 @@ useClickOutside(showItem, parent, () => {
   display: none;
 }
 
-.drop-down .options ul li a {
+.drop-down .options ul li p {
   height: 32px;
   padding: 5px;
   display: block;
@@ -154,8 +149,9 @@ useClickOutside(showItem, parent, () => {
   align-items: center;
 }
 
-.drop-down .options ul li a:hover {
+.drop-down .options ul li p:hover {
   background: #ceebdc;
   transition: 0.2s ease;
+  cursor: pointer;
 }
 </style>

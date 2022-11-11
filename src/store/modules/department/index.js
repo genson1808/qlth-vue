@@ -23,7 +23,7 @@ const actions = {
     } catch (error) {
       commit("SET_LOADING", false);
       commit("ADD_TOAST", {
-        title: error.response.statusText,
+        title: error.response.status,
         type: "error",
         message: error.message,
       });

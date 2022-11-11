@@ -1,7 +1,7 @@
 <template>
-  <Toolbar v-model:selected="employeesSelected" v-model="paging.filters" />
-  <TableData v-model="getEmployees" v-model:selected="employeesSelected" v-model:total="getEmployees.total" />
-  <FooterTable v-model="paging.pageNumber" :total="getEmployees.total" :pageSize="getEmployees.pageSize" />
+    <Toolbar v-model:selected="employeesSelected" v-model="paging.filters" />
+    <TableData v-model="getEmployees" v-model:selected="employeesSelected" v-model:total="getEmployees.total" />
+    <FooterTable v-model="paging.pageNumber" :total="getEmployees.total" :pageSize="getEmployees.pageSize" />
 </template>
 
 <script setup>
@@ -22,10 +22,10 @@ const store = useStore();
 
 //load dữ liệu trước khi component mount
 onBeforeMount(() => {
-  store.dispatch("loadEmployees");
-  store.dispatch("getRooms");
-  store.dispatch("getDepartments");
-  store.dispatch("getSubjects");
+    store.dispatch("loadEmployees");
+    store.dispatch("getRooms");
+    store.dispatch("getDepartments");
+    store.dispatch("getSubjects");
 })
 
 /**
@@ -33,7 +33,7 @@ onBeforeMount(() => {
  * @author SOTB (11/10/2022)
  */
 const getEmployees = computed(() => {
-  return store.getters.employees;
+    return store.getters.employees;
 })
 
 /**
@@ -41,7 +41,7 @@ const getEmployees = computed(() => {
 * @author SONTB (11/10/2022)
 */
 const paging = computed(() => {
-  return store.getters.employeePaging;
+    return store.getters.employeePaging;
 })
 
 total.value = getEmployees.total;
@@ -51,7 +51,7 @@ total.value = getEmployees.total;
  * @author SOTB (11/10/2022)
  */
 watch(paging, () => {
-  store.dispatch('loadEmployees');
+    store.dispatch('loadEmployees');
 }, { deep: true });
 
 </script>

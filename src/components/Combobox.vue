@@ -35,7 +35,7 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from "vue";
+import { computed, ref, watch, onMounted } from "vue";
 import { useClickOutside } from "@/use/useClickOutside.js";
 import UniqueID from "@/helpers/UniqueID.js";
 
@@ -59,6 +59,11 @@ const cbAllId = UniqueID().getID();
 const show = ref(false);
 
 const selected = ref([]);
+
+onMounted(() => {
+  selected.value = props.modelValue
+});
+
 const checkedAll = computed(() => {
   return props.data.size === selected.value.length;
 });

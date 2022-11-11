@@ -113,6 +113,7 @@ const mouseOut = function () {
     min-height: 26px;
     color: #fff;
     text-align: center;
+    padding: 5px;
   }
 
   span.has-error:after {

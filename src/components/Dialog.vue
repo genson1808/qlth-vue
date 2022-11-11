@@ -15,15 +15,14 @@
       </div>
       <div class="body__right">
         <div class="add__employee--dialog">
-          <div class="title"> 
-            {{
-  formType == "create" ?
-    'Thêm hồ sơ cán bộ, giáo viên' :
-    'Chỉnh sửa hồ sơ cán bộ giáo viên'}}</div>
+          <div class="title"> {{ formType == "create" ? 'Thêm hồ sơ cán bộ, giáo viên' : `Chỉnh sửa hồ sơ cán bộ giáo
+          viên`}}</div>
           <form id="add-employee-form">
             <div class="form-wrapper">
-              <BaseInput :required="true" name="employeeCode" :error="errors.code" v-model="employee.employeeCode"
-                label="Số hiệu cán bộ" class="form-stack-1" />
+              <InputDataList :recommends="[recommendCode]" :required="true" name="employeeCode" :error="errors.code"
+                v-model="employee.employeeCode" label="Số hiệu cán bộ" class="form-stack-1" />
+              <!-- <BaseInput :required="true" name="employeeCode" :error="errors.code" v-model="employee.employeeCode"
+                label="Số hiệu cán bộ" class="form-stack-1" /> -->
               <BaseInput :required="true" name="employeeName" :error="errors.name" v-model="employee.employeeName"
                 label="Họ và tên" class="form-stack-2" />
               <BaseInput name="phoneNumber" :error="errors.phone" v-model="employee.phoneNumber" label="Số điện thoại"
@@ -34,19 +33,19 @@
                 <div class="wrap-label">
                   <label title="Tổ bộ môn">Tổ bộ môn</label>
                 </div>
-                <Dropdown v-model="employee.department" :data="getDepartments" />
+                <Dropdown v-model="employee.departmentID" :data="getDepartments" />
               </div>
               <div class="form-stack-6 input-stack">
                 <div class="wrap-label">
                   <label title="Quản lý theo môn">QL theo môn</label>
                 </div>
-                <Combobox v-model="employee.employeeSubject" :data="getSubjects" />
+                <Combobox v-model="employee.subjects" :data="getSubjects" />
               </div>
               <div class="form-stack-7 input-stack">
                 <div class="wrap-label">
                   <label title="Quản lý kho, phòng">QL kho, phòng</label>
                 </div>
-                <Combobox v-model="employee.employeeRoom" :data="getRooms" :width="580" />
+                <Combobox v-model="employee.rooms" :data="getRooms" :width="580" />
               </div>
               <div class="form-stack-8 input-stack">
                 <div class="checkbox-wrapper">
@@ -84,11 +83,9 @@ import Combobox from "@/components/Combobox.vue";
 import Dropdown from "@/components/Dropdown.vue";
 import Checkbox from "@/components/Checkbox.vue";
 import { useStore } from 'vuex';
-import { useClickOutside } from "@/use/useClickOutside.js";
 import { validate } from "@/helpers/validator.js";
-import { Data } from "@/helpers/Data.js";
-import { ref, reactive, watch, computed } from "vue";
-import axios from "axios";
+import { ref, reactive, watch, computed, onBeforeMount } from "vue";
+import InputDataList from "./InputDataList.vue";
 
 const props = defineProps({
   modelValue: {
@@ -98,8 +95,8 @@ const props = defineProps({
       employeeCode: "",
       phoneNumber: "",
       email: "",
-      employeeRoom: [],
-      employeeSubject: [],
+      rooms: [],
+      subjects: [],
       department: "",
       IsEquipmentManagement: false,
       isWorking: true,
@@ -116,11 +113,21 @@ const props = defineProps({
 });
 const emit = defineEmits(['update:modelValue', 'update:showDialog'])
 
-const employee = reactive({ ...props.modelValue })
-
+const employee = ref(props.modelValue)
 const store = useStore();
 
+onBeforeMount(async () => {
+  if (props.formType == "create") {
+    await store.dispatch('getRecommendCode')
+  }
+});
 
+const recommendCode = computed(() => {
+  return store.getters.recommendCode;
+})
+
+// Gettter danh sách tổ chuyên môn từ store
+// Xử lý chuyển dữ liệu cần thiết để tối ưu hiệu năng với O(1)
 const getDepartments = computed(() => {
   const m = new Map();
   Array.from(store.getters.departments).forEach(e => {
@@ -129,6 +136,8 @@ const getDepartments = computed(() => {
   return m;
 })
 
+// Gettter danh sách môn học từ store
+// Xử lý chuyển dữ liệu cần thiết để tối ưu hiệu năng với O(1)
 const getSubjects = computed(() => {
   const m = new Map();
   Array.from(store.getters.subjects).forEach(e => {
@@ -137,6 +146,7 @@ const getSubjects = computed(() => {
   return m;
 })
 
+// Gettter danh sách kho, phòng từ store
 const getRooms = computed(() => {
   const m = new Map();
   Array.from(store.getters.rooms).forEach(e => {
@@ -148,10 +158,19 @@ const getRooms = computed(() => {
 
 const closeDialog = () => {
   emit('update:showDialog', false)
+  employee.value.employeeName = ""
+  employee.value.employeeCode = ""
+  employee.value.phoneNumber = ""
+  employee.value.email = ""
+  employee.value.departmentID= ""
+  employee.value.rooms = []
+  employee.value.subjects = []
+  employee.value.department = ""
+  employee.value.IsEquipmentManagement = false
+  employee.value.isWorking = true
 };
 
 const dialog = ref(null);
-// useClickOutside(dialog, closeDialog);
 
 const errors = reactive({
   code: "",
@@ -160,7 +179,9 @@ const errors = reactive({
   phone: "",
 });
 
-
+/**
+ * Thực hiện validate các fields
+ */
 watch(() => employee.employeeCode, () => {
   errors["code"] = validate(["required"], employee.employeeCode)[0];
 })
@@ -191,45 +212,52 @@ watch(
   }
 )
 
-function submit() {
-  errors["code"] = validate(["required"], employee.employeeCode)[0];
-  errors["name"] = validate(["required"], employee.employeeName)[0];
-  errors["phone"] = validate(["phone"], employee.phoneNumber)[0];
+async function submit() {
+  // revalidate lại khi submit để đảm bảo tính nhất quán
+  errors["code"] = validate(["required"], employee.value.employeeCode)[0];
+  errors["name"] = validate(["required"], employee.value.employeeName)[0];
+  errors["phone"] = validate(["phone"], employee.value.phoneNumber)[0];
+  errors["email"] = validate(["email"], employee.value.email)[0];
 
   if (!errors.code && !errors.name && !errors.email && !errors.phone) {
-    const createEmployee = async (employee) => {
-      try {
-        store.dispatch('setLoading', true)
-        const res = await axios.post("http://localhost:5098/api/v1/employees", employee)
-        store.dispatch('setLoading', false)
-        console.log(res)
-        if (res.status == 201) {
-          store.dispatch('addToast', {
-            title: 'Thành công',
-            type: 'success',
-            message: 'thêm mới cán bộ, giáo viên thành công',
-          });
-        }
-      } catch (e) {
-        console.log(e)
-        store.dispatch('setLoading', false)
+    try {
+      const data = {
+        employeeName: employee.value.employeeName,
+        employeeCode: employee.value.employeeCode,
+        email: employee.value.email,
+        phoneNumber: employee.value.phoneNumber,
+        rooms: employee.value.rooms,
+        subjects: employee.value.subjects,
+        departmentID: employee.value.departmentID,
+        IsEquipmentManagement: employee.value.IsEquipmentManagement,
+        isWorking: employee.value.IsWorking
       }
+
+      await store.dispatch('createEmployee', data);
+      await store.dispatch("loadEmployees");
+      closeDialog();
+    } catch (error) {
+      console.log("error from try catch")
+      var errRes = JSON.parse(error.message)
+      errors["code"] = errRes.MoreInfo.EmployeeCode;
+      errors["name"] = errRes.MoreInfo.EmployeeName;
+      errors["phone"] = errRes.MoreInfo.PhoneNumber;
+      errors["email"] = errRes.MoreInfo.Email.join('\n');
     }
-    const data = {
-      employeeName: employee.employeeName,
-      employeeCode: employee.employeeCode,
-      email: employee.email,
-      phoneNumber: employee.phoneNumber,
-      departmentID: employee.department,
-    }
-    createEmployee(data);
-  }
+  };
 }
+
 </script>
 
 <style lang="scss" scoped>
 .day-off--hidden {
   visibility: hidden;
+}
+
+#day-off-cb:focus {
+  outline: none;
+  border-radius: 4px;
+  border: 1px solid #02bf70;
 }
 
 .dialog {
