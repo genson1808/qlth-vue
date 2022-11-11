@@ -1,20 +1,14 @@
 <template>
   <div class="checkbox" ref="pr" tabindex="0">
-    <input
-      ref="input"
-      type="checkbox"
-      name="checkbox_input"
-      class="checkbox__input"
-      :checked="modelValue"
-      :id="ipId"
-      @change="$emit('update:modelValue', $event.target.checked)"
-    />
-    <label :for="ipId" class="checkbox__checkmark"></label>
+    <input ref="input" type="checkbox" name="checkbox_input" class="checkbox__input" :checked="modelValue" :id="ipId"
+      @change="$emit('update:modelValue', $event.target.checked)" />
+    <label :for="ipId" class="checkbox__checkmark" :class="focus ? 'focus' : ''"></label>
   </div>
 </template>
 
 <script setup>
 import UniqueID from "@/helpers/UniqueID.js";
+import { ref } from 'vue';
 
 const ipId = UniqueID().getID();
 
@@ -25,6 +19,8 @@ const props = defineProps({
     required: true,
   },
 });
+
+const focus = ref(false)
 
 const emits = defineEmits(["update:modelValue"]);
 </script>
@@ -41,6 +37,7 @@ const emits = defineEmits(["update:modelValue"]);
           background-color: #03ae66;
           border: none;
         }
+
         &:after {
           opacity: 1;
           visibility: visible;
@@ -49,22 +46,33 @@ const emits = defineEmits(["update:modelValue"]);
     }
   }
 }
+
 .checkbox {
   display: flex;
   width: 20px;
   height: 20px;
+  box-sizing: border-box;
+
+  &:focus .checkbox__checkmark::before {
+    outline: none;
+    border-radius: 4px;
+    border: 1px solid #02bf70;
+  }
 
   &:focus {
-    border-radius: 4px;
+    outline: none;
   }
+
   .checkbox__checkmark {
     position: relative;
-    padding-left: 2rem;
+    padding-left: 20px;
     cursor: pointer;
+    box-sizing: border-box;
+
     &:before {
       content: "";
-      width: 2rem;
-      height: 2rem;
+      width: 20px;
+      height: 20px;
       background-color: #fff;
       border: 1px solid var(--line-gridpanel-color);
       position: absolute;
@@ -73,7 +81,10 @@ const emits = defineEmits(["update:modelValue"]);
       transform: translateY(-50%);
       border-radius: 4px;
       box-sizing: border-box;
+
+
     }
+
     &:after {
       content: "";
       position: absolute;
@@ -89,6 +100,8 @@ const emits = defineEmits(["update:modelValue"]);
       transition: 0.25s linear;
       box-sizing: border-box;
     }
+
+
   }
 }
 </style>

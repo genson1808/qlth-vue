@@ -1,13 +1,10 @@
 <template>
   <router-view />
+  <Loading />
+  <Toasts />
 </template>
 
-<script>
-export default {
-  name: "App",
-
-  data: () => ({
-    //
-  }),
-};
+<script setup>
+import Loading from '@/components/Loading.vue';
+import Toasts from '@/components/Toasts.vue';
 </script>

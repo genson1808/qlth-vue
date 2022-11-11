@@ -40,4 +40,13 @@ body {
   --line-gridpanel-color: #d5d8e6;
   --header-gridpanel-color: #f5f6fa;
   --overlay-color: #101114a0;
+  --toast-success: #4ba25d;
+  --toast-error: #ed6d68;
+  --toast-warning: #e7bd40;
+  --toast-notification: #4097e4;
+}
+
+
+.not-allowed {
+  cursor: not-allowed !important;
 }
