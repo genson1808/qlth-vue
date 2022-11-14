@@ -1,7 +1,7 @@
 <template>
   <Toolbar v-model:selected="employeesSelected" v-model="paging.filters" />
   <TableData v-model="getEmployees" v-model:selected="employeesSelected" v-model:total="getEmployees.total" />
-  <FooterTable v-model="paging.pageNumber" :total="getEmployees.total" :pageSize="getEmployees.pageSize" />
+  <FooterTable v-model="paging.pageNumber" :total="getEmployees.total" :maxPage="getEmployees.maxPage" :pageSize="getEmployees.pageSize" />
 </template>
 
 <script setup>

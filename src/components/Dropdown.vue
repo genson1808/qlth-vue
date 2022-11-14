@@ -1,13 +1,19 @@
 <template>
   <div class="drop-down" ref="parent">
     <div class="selected" :class="show ? 'focus' : ''" tabindex="0">
-      <p href="#"><span>{{ selected }}<span class="value">{{ selected }}</span></span></p>
+      <p href="#">
+        <span
+          >{{ selected }}<span class="value">{{ selected }}</span></span
+        >
+      </p>
     </div>
     <div class="toggle-dropdown" @click="toggle"></div>
     <div class="options">
       <ul :class="show ? '' : 'dropdown-hide'" ref="showItem">
         <li v-for="[key, value] in data" :key="key" @click="select(key)">
-          <p href="#">{{ value }}<span class="value">{{ value }}</span></p>
+          <p href="#">
+            {{ value }}<span class="value">{{ value }}</span>
+          </p>
         </li>
       </ul>
     </div>
@@ -26,35 +32,52 @@ const props = defineProps({
   data: {
     type: Map,
     require: true,
-  }
+  },
 });
 
 const emit = defineEmits(["update:modelValue"]);
 
-const selected = ref('');
+/**
+ * mapping value của modelValue truyển vào khi mounted
+ * vd: khi chỉnh sửa thì phải mapping data truyền vào với các input
+ * @author SONTB (05/10/2022)
+ */
+const selected = ref("");
 onMounted(() => {
-  selected.value = props.data.get(props.modelValue)
+  selected.value = props.data.get(props.modelValue);
 });
 
+/**
+ * Xử lý toggle dropdown
+ * @author SONTB (05/10/2022)
+ */
 const show = ref(false);
 
 function toggle() {
   show.value = !show.value;
 }
 
-function select(val) {
-  let valUpdate = props.data.get(val)
-  emit("update:modelValue", val);
-  selected.value = valUpdate;
-  show.value = false;
-}
-
+/**
+ * xử lý khi click bên ngoài dropdown sẽ tự ẩn
+ * @author SONTB (05/10/2022)
+ */
 const showItem = ref(null);
 const parent = ref(null);
 
 useClickOutside(showItem, parent, () => {
   show.value = false;
 });
+
+/**
+ * Xử lý khi select một item
+ * @author SONTB (05/10/2022)
+ */
+function select(val) {
+  let valUpdate = props.data.get(val);
+  emit("update:modelValue", val);
+  selected.value = valUpdate;
+  show.value = false;
+}
 </script>
 
 <style lang="scss" scoped>
