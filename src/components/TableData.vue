@@ -5,7 +5,7 @@
         <thead>
           <tr>
             <td class="df-center">
-              <Checkbox v-model="selectAll" />
+              <Checkbox @change="onCheckAll" />
             </td>
             <td title="Số hiệu cán bộ">Số hiệu cán bộ</td>
             <td title="Họ và tên">Họ và tên</td>
@@ -190,6 +190,22 @@ function edit(e) {
   data.rooms = data.rooms.map((e) => e.roomID);
   data.subjects = data.subjects.map((e) => e.subjectID);
   dataEdit.value = data;
+}
+
+/**
+ * Xử lý sự kiện check all checkbox
+ * @param {*} e event
+ * @author SONTB (08/11/2022)
+ */
+function onCheckAll(e) {
+  // nếu checked thì add hết value vào selected
+  if (e.target.checked) {
+    employeesSelected.value = [];
+    employeesSelected.value = props.modelValue.data.map((e) => e.employeeID);
+  } else {
+    // Nếu unchecked thì remove các value đã checked
+    employeesSelected.value = [];
+  }
 }
 </script>
 

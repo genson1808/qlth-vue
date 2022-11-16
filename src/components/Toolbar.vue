@@ -2,14 +2,22 @@
   <div class="top-toolbar">
     <div class="toolbar-left">
       <div class="search">
-        <input v-model="keyword" @input="onChangeDebounced" type="text" class="input-search" />
+        <input
+          v-model="keyword"
+          @input="onChangeDebounced"
+          type="text"
+          class="input-search"
+        />
         <div class="search-icon pointer"></div>
       </div>
     </div>
     <div class="toolbar-right dflex">
       <div class="btn btn--green btn-add" @click="openDialog">Thêm</div>
       <div class="btn btn--white btn-export">Xuất khẩu</div>
-      <div class="more-action pointer btn--white" @click="showMoreAction = !showMoreAction">
+      <div
+        class="more-action pointer btn--white"
+        @click="showMoreAction = !showMoreAction"
+      >
         <div class="actions" v-show="showMoreAction">
           <div class="action-remove" @click="remove">
             <div class="remove-icon"></div>
@@ -19,14 +27,22 @@
       </div>
     </div>
   </div>
-  <Dialog v-if="showDialog" v-model:showDialog="showDialog" :formType="create" />
-  <DialogConfirm v-if="showDialogConfirm" v-model="confirmRemove" v-model:show="showDialogConfirm" />
+  <Dialog
+    v-if="showDialog"
+    v-model:showDialog="showDialog"
+    :formType="create"
+  />
+  <DialogConfirm
+    v-if="showDialogConfirm"
+    v-model="confirmRemove"
+    v-model:show="showDialogConfirm"
+  />
 </template>
 
 <script setup>
 import { watch, ref, computed } from "vue";
 import { useStore } from "vuex";
-import debounce from "@/helpers/Debounce.js"
+import debounce from "@/helpers/Debounce.js";
 import Dialog from "@/components/Dialog.vue";
 import DialogConfirm from "@/components/DialogConfirm.vue";
 
@@ -38,10 +54,10 @@ const props = defineProps({
   selected: {
     type: Array,
     required: true,
-  }
-})
+  },
+});
 
-const emit = defineEmits(['update:modelValue', 'update:selected'])
+const emit = defineEmits(["update:modelValue", "update:selected"]);
 const store = useStore();
 
 /**
@@ -52,40 +68,39 @@ const store = useStore();
 
 const paging = computed(() => {
   return store.getters.employeePaging;
-})
+});
 
-const keyword = ref('');
+const keyword = ref("");
 
-const onChangeDebounced = debounce(e => {
+const onChangeDebounced = debounce((e) => {
   var filter = {
     EmployeeName: keyword.value,
-  }
+  };
   const newPaging = {
     filters: filter,
     pageNumber: paging.value.pageNumber,
     pageSize: paging.value.pageSize,
-    sorts: paging.value.sorts
-  }
-  store.dispatch("setPaging", newPaging)
+    sorts: paging.value.sorts,
+  };
+  store.dispatch("setPaging", newPaging);
 }, 800);
 
-const showDialog = ref(false)
+const showDialog = ref(false);
 // Show dialog thêm cán bộ, giáo viên khi người
 // dùng lick vào button thêm
 const openDialog = () => {
   showDialog.value = true;
 };
 
-
 /**
  * Xoá nhiều
  * @author SONTB (09/11/2022)
  */
 
-const showMoreAction = ref(false)
+const showMoreAction = ref(false);
 
 // Xử lý show confirm dialog khi user thực hiện xoá nhiều
-const showDialogConfirm = ref(false)
+const showDialogConfirm = ref(false);
 function remove() {
   if (props.selected.length > 0) {
     showDialogConfirm.value = true;
@@ -93,17 +108,20 @@ function remove() {
 }
 
 // Thực hiện xoá nhiều khi người dùng click button đồng ý
-const confirmRemove = ref(false)
-watch(() => confirmRemove.value, async () => {
-  if (confirmRemove.value && props.selected.length > 0) {
-    await store.dispatch('removeEmployees', [...props.selected])
-    // load lại data employee sau khi xoá nhiều
-    await store.dispatch("loadEmployees")
-    confirmRemove.value = false;
-    emit('update:selected', [])
+const confirmRemove = ref(false);
+watch(
+  () => confirmRemove.value,
+  async () => {
+    if (confirmRemove.value && props.selected.length > 0) {
+      await store.dispatch("removeEmployees", [...props.selected]);
+      // load lại data employee sau khi xoá nhiều
+      await store.dispatch("loadEmployees");
+      store.dispatch("reloadPaging");
+      confirmRemove.value = false;
+      emit("update:selected", []);
+    }
   }
-});
-
+);
 </script>
 
 <style lang="scss" scoped>
@@ -193,8 +211,6 @@ watch(() => confirmRemove.value, async () => {
           }
         }
       }
-
-
     }
 
     .btn-add {

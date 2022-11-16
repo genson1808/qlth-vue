@@ -28,7 +28,7 @@
         @click="goToLastPage"
       />
       <div class="paging-info">
-        <span> {{ `${modelValue}/${maxPage} trang` }} </span>
+        <span> {{ `${page}/${maxPage} trang` }} </span>
         <span> {{ `(${total} giáo viên)` }}</span>
       </div>
     </div>
@@ -36,7 +36,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { ref, watch, toRef } from "vue";
 import debounce from "@/helpers/Debounce.js";
 
 /**
@@ -69,6 +69,7 @@ const emit = defineEmits(["update:modelValue"]);
 
 // Biến page bindings 2 chiều với input page
 const page = ref(1);
+const maxPage = toRef(props, "maxPage");
 
 /**
  * Xử lý điều hướng cho phân trang
@@ -102,6 +103,16 @@ const goToFirstPage = () => {
   page.value = 1;
   emit("update:modelValue", page.value);
 };
+
+watch(
+  () => maxPage.value,
+  () => {
+    if (page.value > maxPage.value) {
+      page.value = 1;
+      emit("update:modelValue", page.value);
+    }
+  }
+);
 
 /**
  * Xử lý khi người dùng nhập tự nhập trang muốn đến sử dụng kỹ thuật debounce

@@ -127,7 +127,7 @@ function removeAll() {
 function onCheckAll(e) {
   // nếu checked thì add hết value vào selected
   if (e.target.checked) {
-    selected.value = []
+    selected.value = [];
     for (let key of props.data.keys()) {
       selected.value.push(key);
     }

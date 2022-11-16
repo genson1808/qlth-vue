@@ -1,0 +1,844 @@
+* 
+* ==> Audit <==
+* |---------|--------------------------------|-------------|--------|---------|---------------------|---------------------|
+| Command |              Args              |   Profile   |  User  | Version |     Start Time      |      End Time       |
+|---------|--------------------------------|-------------|--------|---------|---------------------|---------------------|
+| start   | --nodes 2 -p genson-kube       | genson-kube | genson | v1.28.0 | 15 Nov 22 11:08 +07 |                     |
+|         | --driver=hyperkit              |             |        |         |                     |                     |
+| delete  |                                | minikube    | genson | v1.28.0 | 15 Nov 22 11:23 +07 | 15 Nov 22 11:23 +07 |
+| start   |                                | minikube    | genson | v1.28.0 | 15 Nov 22 11:24 +07 |                     |
+| start   | --nodes 2 -p genson-kube       | genson-kube | genson | v1.28.0 | 15 Nov 22 11:24 +07 |                     |
+|         | --driver=hyperkit              |             |        |         |                     |                     |
+| delete  |                                | minikube    | genson | v1.28.0 | 15 Nov 22 11:29 +07 | 15 Nov 22 11:29 +07 |
+| start   | --nodes 2 -p genson-kube       | genson-kube | genson | v1.28.0 | 15 Nov 22 11:29 +07 |                     |
+|         | --driver=hyperkit              |             |        |         |                     |                     |
+| start   | --nodes 2 -p genson-kube       | genson-kube | genson | v1.28.0 | 15 Nov 22 19:09 +07 |                     |
+|         | --driver=hyperkit              |             |        |         |                     |                     |
+|---------|--------------------------------|-------------|--------|---------|---------------------|---------------------|
+
+* 
+* ==> Last Start <==
+* Log file created at: 2022/11/15 19:09:17
+Running on machine: Sons-MacBook-Pro
+Binary: Built with gc go1.19.3 for darwin/amd64
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+I1115 19:09:17.158435   15072 out.go:296] Setting OutFile to fd 1 ...
+I1115 19:09:17.159732   15072 out.go:348] isatty.IsTerminal(1) = true
+I1115 19:09:17.159739   15072 out.go:309] Setting ErrFile to fd 2...
+I1115 19:09:17.159748   15072 out.go:348] isatty.IsTerminal(2) = true
+I1115 19:09:17.160767   15072 root.go:334] Updating PATH: /Users/genson/.minikube/bin
+I1115 19:09:17.165590   15072 out.go:303] Setting JSON to false
+I1115 19:09:17.205870   15072 start.go:116] hostinfo: {"hostname":"Sons-MacBook-Pro.local","uptime":1643590,"bootTime":1666870567,"procs":614,"os":"darwin","platform":"darwin","platformFamily":"Standalone Workstation","platformVersion":"12.6","kernelVersion":"21.6.0","kernelArch":"x86_64","virtualizationSystem":"","virtualizationRole":"","hostId":"07607a85-1dea-5c4c-87b2-5da4fb9c6d53"}
+W1115 19:09:17.206026   15072 start.go:124] gopshost.Virtualization returned error: not implemented yet
+I1115 19:09:17.213977   15072 out.go:177] 😄  [genson-kube] minikube v1.28.0 on Darwin 12.6
+I1115 19:09:17.227020   15072 notify.go:220] Checking for updates...
+I1115 19:09:17.227595   15072 config.go:180] Loaded profile config "genson-kube": Driver=hyperkit, ContainerRuntime=docker, KubernetesVersion=v1.25.3
+I1115 19:09:17.229329   15072 main.go:134] libmachine: Found binary path at /Users/genson/.minikube/bin/docker-machine-driver-hyperkit
+I1115 19:09:17.230300   15072 main.go:134] libmachine: Launching plugin server for driver hyperkit
+I1115 19:09:17.279528   15072 main.go:134] libmachine: Plugin server listening at address 127.0.0.1:50661
+I1115 19:09:17.282700   15072 main.go:134] libmachine: () Calling .GetVersion
+I1115 19:09:17.285568   15072 main.go:134] libmachine: Using API Version  1
+I1115 19:09:17.285583   15072 main.go:134] libmachine: () Calling .SetConfigRaw
+I1115 19:09:17.285940   15072 main.go:134] libmachine: () Calling .GetMachineName
+I1115 19:09:17.286098   15072 main.go:134] libmachine: (genson-kube) Calling .DriverName
+I1115 19:09:17.288248   15072 driver.go:365] Setting default libvirt URI to qemu:///system
+I1115 19:09:17.288649   15072 main.go:134] libmachine: Found binary path at /Users/genson/.minikube/bin/docker-machine-driver-hyperkit
+I1115 19:09:17.288681   15072 main.go:134] libmachine: Launching plugin server for driver hyperkit
+I1115 19:09:17.299363   15072 main.go:134] libmachine: Plugin server listening at address 127.0.0.1:50663
+I1115 19:09:17.299991   15072 main.go:134] libmachine: () Calling .GetVersion
+I1115 19:09:17.300502   15072 main.go:134] libmachine: Using API Version  1
+I1115 19:09:17.300519   15072 main.go:134] libmachine: () Calling .SetConfigRaw
+I1115 19:09:17.300877   15072 main.go:134] libmachine: () Calling .GetMachineName
+I1115 19:09:17.301109   15072 main.go:134] libmachine: (genson-kube) Calling .DriverName
+I1115 19:09:17.339814   15072 out.go:177] ✨  Using the hyperkit driver based on existing profile
+I1115 19:09:17.345719   15072 start.go:282] selected driver: hyperkit
+I1115 19:09:17.346111   15072 start.go:808] validating driver "hyperkit" against &{Name:genson-kube KeepContext:false EmbedCerts:false MinikubeISO:https://storage.googleapis.com/minikube/iso/minikube-v1.28.0-amd64.iso KicBaseImage:gcr.io/k8s-minikube/kicbase:v0.0.36@sha256:8debc1b6a335075c5f99bfbf131b4f5566f68c6500dc5991817832e55fcc9456 Memory:2200 CPUs:2 DiskSize:20000 VMDriver: Driver:hyperkit HyperkitVpnKitSock: HyperkitVSockPorts:[] DockerEnv:[] ContainerVolumeMounts:[] InsecureRegistry:[] RegistryMirror:[] HostOnlyCIDR:192.168.59.1/24 HypervVirtualSwitch: HypervUseExternalSwitch:false HypervExternalAdapter: KVMNetwork:default KVMQemuURI:qemu:///system KVMGPU:false KVMHidden:false KVMNUMACount:1 APIServerPort:0 DockerOpt:[] DisableDriverMounts:false NFSShare:[] NFSSharesRoot:/nfsshares UUID: NoVTXCheck:false DNSProxy:false HostDNSResolver:true HostOnlyNicType:virtio NatNicType:virtio SSHIPAddress: SSHUser:root SSHKey: SSHPort:22 KubernetesConfig:{KubernetesVersion:v1.25.3 ClusterName:genson-kube Namespace:default APIServerName:minikubeCA APIServerNames:[] APIServerIPs:[] DNSDomain:cluster.local ContainerRuntime:docker CRISocket: NetworkPlugin:cni FeatureGates: ServiceCIDR:10.96.0.0/12 ImageRepository: LoadBalancerStartIP: LoadBalancerEndIP: CustomIngressCert: RegistryAliases: ExtraOptions:[] ShouldLoadCachedImages:true EnableDefaultCNI:false CNI: NodeIP: NodePort:8443 NodeName:} Nodes:[{Name: IP: Port:8443 KubernetesVersion:v1.25.3 ContainerRuntime:docker ControlPlane:true Worker:true}] Addons:map[] CustomAddonImages:map[] CustomAddonRegistries:map[] VerifyComponents:map[apiserver:true system_pods:true] StartHostTimeout:6m0s ScheduledStop:<nil> ExposedPorts:[] ListenAddress: Network: Subnet: MultiNodeRequested:true ExtraDisks:0 CertExpiration:26280h0m0s Mount:false MountString:/Users:/minikube-host Mount9PVersion:9p2000.L MountGID:docker MountIP: MountMSize:262144 MountOptions:[] MountPort:0 MountType:9p MountUID:docker BinaryMirror: DisableOptimizations:false DisableMetrics:false CustomQemuFirmwarePath: SocketVMnetClientPath:/opt/socket_vmnet/bin/socket_vmnet_client SocketVMnetPath:/var/run/socket_vmnet}
+I1115 19:09:17.346284   15072 start.go:819] status for hyperkit: {Installed:true Healthy:true Running:true NeedsImprovement:false Error:<nil> Reason: Fix: Doc: Version:}
+I1115 19:09:17.346464   15072 install.go:52] acquiring lock: {Name:mk4023283b30b374c3f04c8805d539e68824c0b8 Clock:{} Delay:500ms Timeout:10m0s Cancel:<nil>}
+I1115 19:09:17.346606   15072 install.go:117] Validating docker-machine-driver-hyperkit, PATH=/Users/genson/.minikube/bin:/Users/genson/.cargo/bin:/usr/local/opt/node@16/bin:/Users/genson/.emacs.d/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/genson/workspace/go/bin:/usr/local/opt/go@1.18/libexec/bin:/Users/genson/.dotnet/tools:/Library/Frameworks/Mono.framework/Versions/6.12.0/bin:/usr/local/opt/fzf/bin
+I1115 19:09:17.357264   15072 install.go:137] /Users/genson/.minikube/bin/docker-machine-driver-hyperkit version is 1.28.0
+I1115 19:09:17.366896   15072 install.go:79] stdout: /Users/genson/.minikube/bin/docker-machine-driver-hyperkit
+I1115 19:09:17.366917   15072 install.go:81] /Users/genson/.minikube/bin/docker-machine-driver-hyperkit looks good
+I1115 19:09:17.367307   15072 cni.go:95] Creating CNI manager for ""
+I1115 19:09:17.367318   15072 cni.go:156] 1 nodes found, recommending kindnet
+I1115 19:09:17.367375   15072 start_flags.go:317] config:
+{Name:genson-kube KeepContext:false EmbedCerts:false MinikubeISO:https://storage.googleapis.com/minikube/iso/minikube-v1.28.0-amd64.iso KicBaseImage:gcr.io/k8s-minikube/kicbase:v0.0.36@sha256:8debc1b6a335075c5f99bfbf131b4f5566f68c6500dc5991817832e55fcc9456 Memory:2200 CPUs:2 DiskSize:20000 VMDriver: Driver:hyperkit HyperkitVpnKitSock: HyperkitVSockPorts:[] DockerEnv:[] ContainerVolumeMounts:[] InsecureRegistry:[] RegistryMirror:[] HostOnlyCIDR:192.168.59.1/24 HypervVirtualSwitch: HypervUseExternalSwitch:false HypervExternalAdapter: KVMNetwork:default KVMQemuURI:qemu:///system KVMGPU:false KVMHidden:false KVMNUMACount:1 APIServerPort:0 DockerOpt:[] DisableDriverMounts:false NFSShare:[] NFSSharesRoot:/nfsshares UUID: NoVTXCheck:false DNSProxy:false HostDNSResolver:true HostOnlyNicType:virtio NatNicType:virtio SSHIPAddress: SSHUser:root SSHKey: SSHPort:22 KubernetesConfig:{KubernetesVersion:v1.25.3 ClusterName:genson-kube Namespace:default APIServerName:minikubeCA APIServerNames:[] APIServerIPs:[] DNSDomain:cluster.local ContainerRuntime:docker CRISocket: NetworkPlugin:cni FeatureGates: ServiceCIDR:10.96.0.0/12 ImageRepository: LoadBalancerStartIP: LoadBalancerEndIP: CustomIngressCert: RegistryAliases: ExtraOptions:[] ShouldLoadCachedImages:true EnableDefaultCNI:false CNI: NodeIP: NodePort:8443 NodeName:} Nodes:[{Name: IP: Port:8443 KubernetesVersion:v1.25.3 ContainerRuntime:docker ControlPlane:true Worker:true}] Addons:map[] CustomAddonImages:map[] CustomAddonRegistries:map[] VerifyComponents:map[apiserver:true system_pods:true] StartHostTimeout:6m0s ScheduledStop:<nil> ExposedPorts:[] ListenAddress: Network: Subnet: MultiNodeRequested:true ExtraDisks:0 CertExpiration:26280h0m0s Mount:false MountString:/Users:/minikube-host Mount9PVersion:9p2000.L MountGID:docker MountIP: MountMSize:262144 MountOptions:[] MountPort:0 MountType:9p MountUID:docker BinaryMirror: DisableOptimizations:false DisableMetrics:false CustomQemuFirmwarePath: SocketVMnetClientPath:/opt/socket_vmnet/bin/socket_vmnet_client SocketVMnetPath:/var/run/socket_vmnet}
+I1115 19:09:17.367971   15072 iso.go:124] acquiring lock: {Name:mk6b033ca7b3d2eaaa1cddb4842f05a4c9731518 Clock:{} Delay:500ms Timeout:10m0s Cancel:<nil>}
+I1115 19:09:17.379557   15072 out.go:177] 👍  Starting control plane node genson-kube in cluster genson-kube
+I1115 19:09:17.385756   15072 preload.go:132] Checking if preload exists for k8s version v1.25.3 and runtime docker
+I1115 19:09:17.385870   15072 preload.go:148] Found local preload: /Users/genson/.minikube/cache/preloaded-tarball/preloaded-images-k8s-v18-v1.25.3-docker-overlay2-amd64.tar.lz4
+I1115 19:09:17.386674   15072 cache.go:57] Caching tarball of preloaded images
+I1115 19:09:17.386860   15072 preload.go:174] Found /Users/genson/.minikube/cache/preloaded-tarball/preloaded-images-k8s-v18-v1.25.3-docker-overlay2-amd64.tar.lz4 in cache, skipping download
+I1115 19:09:17.386876   15072 cache.go:60] Finished verifying existence of preloaded tar for  v1.25.3 on docker
+I1115 19:09:17.387069   15072 profile.go:148] Saving config to /Users/genson/.minikube/profiles/genson-kube/config.json ...
+I1115 19:09:17.388246   15072 cache.go:208] Successfully downloaded all kic artifacts
+I1115 19:09:17.388291   15072 start.go:364] acquiring machines lock for genson-kube: {Name:mk14f6b2d52cda13ecff7391840e988d3d1473c2 Clock:{} Delay:500ms Timeout:13m0s Cancel:<nil>}
+I1115 19:09:17.388478   15072 start.go:368] acquired machines lock for "genson-kube" in 126.073µs
+I1115 19:09:17.388930   15072 start.go:96] Skipping create...Using existing machine configuration
+I1115 19:09:17.388946   15072 fix.go:55] fixHost starting: 
+I1115 19:09:17.389534   15072 main.go:134] libmachine: Found binary path at /Users/genson/.minikube/bin/docker-machine-driver-hyperkit
+I1115 19:09:17.389575   15072 main.go:134] libmachine: Launching plugin server for driver hyperkit
+I1115 19:09:17.400475   15072 main.go:134] libmachine: Plugin server listening at address 127.0.0.1:50665
+I1115 19:09:17.401087   15072 main.go:134] libmachine: () Calling .GetVersion
+I1115 19:09:17.401609   15072 main.go:134] libmachine: Using API Version  1
+I1115 19:09:17.401627   15072 main.go:134] libmachine: () Calling .SetConfigRaw
+I1115 19:09:17.402060   15072 main.go:134] libmachine: () Calling .GetMachineName
+I1115 19:09:17.402248   15072 main.go:134] libmachine: (genson-kube) Calling .DriverName
+I1115 19:09:17.402424   15072 main.go:134] libmachine: (genson-kube) Calling .GetState
+I1115 19:09:17.402615   15072 main.go:134] libmachine: (genson-kube) DBG | exe=/Users/genson/.minikube/bin/docker-machine-driver-hyperkit uid=0
+I1115 19:09:17.402992   15072 main.go:134] libmachine: (genson-kube) DBG | hyperkit pid from json: 12299
+I1115 19:09:17.405145   15072 fix.go:103] recreateIfNeeded on genson-kube: state=Running err=<nil>
+W1115 19:09:17.405166   15072 fix.go:129] unexpected machine state, will restart: <nil>
+I1115 19:09:17.409341   15072 out.go:177] 🏃  Updating the running hyperkit "genson-kube" VM ...
+I1115 19:09:17.424121   15072 machine.go:88] provisioning docker machine ...
+I1115 19:09:17.424143   15072 main.go:134] libmachine: (genson-kube) Calling .DriverName
+I1115 19:09:17.424421   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:09:17.424586   15072 buildroot.go:166] provisioning hostname "genson-kube"
+I1115 19:09:17.424597   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:09:17.424763   15072 main.go:134] libmachine: (genson-kube) Calling .GetSSHHostname
+I1115 19:09:17.424917   15072 main.go:134] libmachine: (genson-kube) Calling .GetSSHPort
+I1115 19:09:17.425122   15072 main.go:134] libmachine: (genson-kube) Calling .GetSSHKeyPath
+I1115 19:09:17.425292   15072 main.go:134] libmachine: (genson-kube) Calling .GetSSHKeyPath
+I1115 19:09:17.425434   15072 main.go:134] libmachine: (genson-kube) Calling .GetSSHUsername
+I1115 19:09:17.426219   15072 main.go:134] libmachine: Using SSH client type: native
+I1115 19:09:17.427483   15072 main.go:134] libmachine: &{{{<nil> 0 [] [] []} docker [0x1003ed820] 0x1003f09a0 <nil>  [] 0s}  22 <nil> <nil>}
+I1115 19:09:17.427496   15072 main.go:134] libmachine: About to run SSH command:
+sudo hostname genson-kube && echo "genson-kube" | sudo tee /etc/hostname
+I1115 19:09:17.427681   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:09:20.428154   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:09:23.428475   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:09:26.428916   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:09:29.430487   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:09:32.430989   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:09:35.432648   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:09:38.434288   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:09:41.435474   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:09:44.435924   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:09:47.436978   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:09:50.437806   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:09:53.439480   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:09:56.441135   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:09:59.442226   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:10:02.442579   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:10:05.443672   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:10:08.445291   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:10:11.447004   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:10:14.447554   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:10:17.449207   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:10:20.449636   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:10:23.450043   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:10:26.450925   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:10:29.451449   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:10:32.452050   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:10:35.453511   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:10:38.455173   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:10:41.456625   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:10:44.457370   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:10:47.457911   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:10:50.459405   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:10:53.461053   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:10:56.462326   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:10:59.463983   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:11:02.465568   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:11:05.466487   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:11:08.468144   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:11:11.469845   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:11:14.471457   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:11:17.473171   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:11:20.474122   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:11:23.474715   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:11:26.475455   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:11:29.476748   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:11:32.478359   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:11:35.479710   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:11:38.480332   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:11:41.481555   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:11:44.482871   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:11:47.484235   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:11:50.485658   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:11:53.486306   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:11:56.487887   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:11:59.489523   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:12:02.491190   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:12:05.491822   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:12:08.492344   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:12:11.492996   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:12:14.494590   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:12:17.495808   15072 main.go:134] libmachine: SSH cmd err, output: <nil>: 
+I1115 19:12:17.495855   15072 main.go:134] libmachine: (genson-kube) Calling .GetSSHHostname
+I1115 19:12:17.496282   15072 main.go:134] libmachine: (genson-kube) Calling .GetSSHPort
+I1115 19:12:17.496610   15072 main.go:134] libmachine: (genson-kube) Calling .GetSSHKeyPath
+I1115 19:12:17.496951   15072 main.go:134] libmachine: (genson-kube) Calling .GetSSHKeyPath
+I1115 19:12:17.497291   15072 main.go:134] libmachine: (genson-kube) Calling .GetSSHUsername
+I1115 19:12:17.497708   15072 main.go:134] libmachine: Using SSH client type: native
+I1115 19:12:17.497939   15072 main.go:134] libmachine: &{{{<nil> 0 [] [] []} docker [0x1003ed820] 0x1003f09a0 <nil>  [] 0s}  22 <nil> <nil>}
+I1115 19:12:17.497966   15072 main.go:134] libmachine: About to run SSH command:
+
+		if ! grep -xq '.*\sgenson-kube' /etc/hosts; then
+			if grep -xq '127.0.1.1\s.*' /etc/hosts; then
+				sudo sed -i 's/^127.0.1.1\s.*/127.0.1.1 genson-kube/g' /etc/hosts;
+			else 
+				echo '127.0.1.1 genson-kube' | sudo tee -a /etc/hosts; 
+			fi
+		fi
+I1115 19:12:17.498190   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:12:20.499329   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:12:23.500696   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:12:26.502249   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:12:29.502740   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:12:32.504422   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:12:35.505536   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:12:38.506890   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:12:41.508568   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:12:44.509465   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:12:47.511090   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:12:50.512099   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:12:53.513716   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:12:56.515380   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:12:59.515852   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:13:02.517059   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:13:05.517578   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:13:08.519281   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:13:11.520589   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:13:14.521259   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:13:17.521922   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:13:20.523047   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:13:23.523847   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:13:26.525396   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:13:29.526723   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:13:32.527984   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:13:35.529538   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:13:38.530079   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:13:41.530499   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:13:44.531463   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:13:47.531790   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:13:50.532142   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:13:53.532899   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:13:56.533660   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:13:59.534410   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:14:02.535513   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:14:05.536514   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:14:08.537820   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:14:11.539214   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:14:14.540256   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:14:17.541778   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:14:20.543322   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:14:23.544716   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:14:26.546425   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:14:29.547403   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:14:32.548955   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:14:35.549604   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:14:38.550918   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:14:41.552339   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:14:44.553158   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:14:47.553673   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:14:50.554477   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:14:53.555106   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:14:56.556705   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:14:59.558360   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:15:02.558934   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:15:05.560224   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:15:08.561317   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:15:11.562963   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:15:14.564095   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:15:17.565350   15072 main.go:134] libmachine: SSH cmd err, output: <nil>: 
+I1115 19:15:17.565392   15072 buildroot.go:172] set auth options {CertDir:/Users/genson/.minikube CaCertPath:/Users/genson/.minikube/certs/ca.pem CaPrivateKeyPath:/Users/genson/.minikube/certs/ca-key.pem CaCertRemotePath:/etc/docker/ca.pem ServerCertPath:/Users/genson/.minikube/machines/server.pem ServerKeyPath:/Users/genson/.minikube/machines/server-key.pem ClientKeyPath:/Users/genson/.minikube/certs/key.pem ServerCertRemotePath:/etc/docker/server.pem ServerKeyRemotePath:/etc/docker/server-key.pem ClientCertPath:/Users/genson/.minikube/certs/cert.pem ServerCertSANs:[] StorePath:/Users/genson/.minikube}
+I1115 19:15:17.565437   15072 buildroot.go:174] setting up certificates
+I1115 19:15:17.571242   15072 provision.go:83] configureAuth start
+I1115 19:15:17.571281   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:15:17.571660   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:15:17.571979   15072 provision.go:86] duration metric: configureAuth took 718.147µs
+W1115 19:15:17.571988   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.572018   15072 retry.go:31] will retry after 110.466µs: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.572155   15072 provision.go:83] configureAuth start
+I1115 19:15:17.572168   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:15:17.572408   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:15:17.572597   15072 provision.go:86] duration metric: configureAuth took 434.886µs
+W1115 19:15:17.572606   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.572618   15072 retry.go:31] will retry after 216.077µs: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.572925   15072 provision.go:83] configureAuth start
+I1115 19:15:17.572941   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:15:17.573089   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:15:17.573267   15072 provision.go:86] duration metric: configureAuth took 334.091µs
+W1115 19:15:17.573273   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.573282   15072 retry.go:31] will retry after 262.026µs: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.573578   15072 provision.go:83] configureAuth start
+I1115 19:15:17.573595   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:15:17.573783   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:15:17.573937   15072 provision.go:86] duration metric: configureAuth took 351.728µs
+W1115 19:15:17.573945   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.573953   15072 retry.go:31] will retry after 316.478µs: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.574357   15072 provision.go:83] configureAuth start
+I1115 19:15:17.574370   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:15:17.574549   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:15:17.574733   15072 provision.go:86] duration metric: configureAuth took 367.879µs
+W1115 19:15:17.574741   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.574750   15072 retry.go:31] will retry after 468.098µs: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.575293   15072 provision.go:83] configureAuth start
+I1115 19:15:17.575305   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:15:17.575481   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:15:17.575675   15072 provision.go:86] duration metric: configureAuth took 376.802µs
+W1115 19:15:17.575688   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.575696   15072 retry.go:31] will retry after 901.244µs: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.576733   15072 provision.go:83] configureAuth start
+I1115 19:15:17.576745   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:15:17.576898   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:15:17.577057   15072 provision.go:86] duration metric: configureAuth took 317.819µs
+W1115 19:15:17.577063   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.577069   15072 retry.go:31] will retry after 644.295µs: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.577837   15072 provision.go:83] configureAuth start
+I1115 19:15:17.577850   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:15:17.578016   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:15:17.578185   15072 provision.go:86] duration metric: configureAuth took 332.202µs
+W1115 19:15:17.578194   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.578208   15072 retry.go:31] will retry after 1.121724ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.579544   15072 provision.go:83] configureAuth start
+I1115 19:15:17.579564   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:15:17.579759   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:15:17.579938   15072 provision.go:86] duration metric: configureAuth took 385.623µs
+W1115 19:15:17.579946   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.579955   15072 retry.go:31] will retry after 1.529966ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.581626   15072 provision.go:83] configureAuth start
+I1115 19:15:17.581643   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:15:17.581786   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:15:17.581920   15072 provision.go:86] duration metric: configureAuth took 289.471µs
+W1115 19:15:17.581925   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.581932   15072 retry.go:31] will retry after 3.078972ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.585170   15072 provision.go:83] configureAuth start
+I1115 19:15:17.585180   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:15:17.585369   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:15:17.585549   15072 provision.go:86] duration metric: configureAuth took 373.986µs
+W1115 19:15:17.585554   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.585561   15072 retry.go:31] will retry after 5.854223ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.592343   15072 provision.go:83] configureAuth start
+I1115 19:15:17.592379   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:15:17.592748   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:15:17.593104   15072 provision.go:86] duration metric: configureAuth took 740.898µs
+W1115 19:15:17.593121   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.593140   15072 retry.go:31] will retry after 11.362655ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.605646   15072 provision.go:83] configureAuth start
+I1115 19:15:17.605713   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:15:17.606323   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:15:17.606812   15072 provision.go:86] duration metric: configureAuth took 1.12766ms
+W1115 19:15:17.606823   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.606838   15072 retry.go:31] will retry after 9.267303ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.617178   15072 provision.go:83] configureAuth start
+I1115 19:15:17.617217   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:15:17.617422   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:15:17.617565   15072 provision.go:86] duration metric: configureAuth took 376.933µs
+W1115 19:15:17.617572   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.617591   15072 retry.go:31] will retry after 17.139291ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.635927   15072 provision.go:83] configureAuth start
+I1115 19:15:17.636017   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:15:17.636441   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:15:17.636807   15072 provision.go:86] duration metric: configureAuth took 860.995µs
+W1115 19:15:17.636823   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.636844   15072 retry.go:31] will retry after 23.881489ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.660951   15072 provision.go:83] configureAuth start
+I1115 19:15:17.660988   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:15:17.661447   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:15:17.661778   15072 provision.go:86] duration metric: configureAuth took 809.451µs
+W1115 19:15:17.661789   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.661803   15072 retry.go:31] will retry after 42.427055ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.704356   15072 provision.go:83] configureAuth start
+I1115 19:15:17.704385   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:15:17.704702   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:15:17.704895   15072 provision.go:86] duration metric: configureAuth took 526.545µs
+W1115 19:15:17.704903   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.704914   15072 retry.go:31] will retry after 51.432832ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.756508   15072 provision.go:83] configureAuth start
+I1115 19:15:17.756542   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:15:17.756997   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:15:17.757305   15072 provision.go:86] duration metric: configureAuth took 762.163µs
+W1115 19:15:17.757323   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.757350   15072 retry.go:31] will retry after 78.14118ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.836521   15072 provision.go:83] configureAuth start
+I1115 19:15:17.836557   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:15:17.837007   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:15:17.837377   15072 provision.go:86] duration metric: configureAuth took 836.053µs
+W1115 19:15:17.837394   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:15:17.837433   15072 retry.go:31] will retry after 174.255803ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:15:18.011820   15072 provision.go:83] configureAuth start
+I1115 19:15:18.011909   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:15:18.012130   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:15:18.012284   15072 provision.go:86] duration metric: configureAuth took 453.083µs
+W1115 19:15:18.012291   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:15:18.012302   15072 retry.go:31] will retry after 159.291408ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:15:18.172839   15072 provision.go:83] configureAuth start
+I1115 19:15:18.172875   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:15:18.173270   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:15:18.173803   15072 provision.go:86] duration metric: configureAuth took 943µs
+W1115 19:15:18.173820   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:15:18.173839   15072 retry.go:31] will retry after 233.827468ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:15:18.408241   15072 provision.go:83] configureAuth start
+I1115 19:15:18.408268   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:15:18.408597   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:15:18.408815   15072 provision.go:86] duration metric: configureAuth took 562.443µs
+W1115 19:15:18.408825   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:15:18.408837   15072 retry.go:31] will retry after 429.392365ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:15:18.838422   15072 provision.go:83] configureAuth start
+I1115 19:15:18.838459   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:15:18.838900   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:15:18.839270   15072 provision.go:86] duration metric: configureAuth took 828.506µs
+W1115 19:15:18.839284   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:15:18.839322   15072 retry.go:31] will retry after 801.058534ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:15:19.641151   15072 provision.go:83] configureAuth start
+I1115 19:15:19.641186   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:15:19.641607   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:15:19.641961   15072 provision.go:86] duration metric: configureAuth took 791.091µs
+W1115 19:15:19.641978   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:15:19.641998   15072 retry.go:31] will retry after 1.529087469s: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:15:21.171783   15072 provision.go:83] configureAuth start
+I1115 19:15:21.171818   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:15:21.172235   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:15:21.172619   15072 provision.go:86] duration metric: configureAuth took 817.074µs
+W1115 19:15:21.172635   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:15:21.172653   15072 retry.go:31] will retry after 1.335136154s: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:15:22.509047   15072 provision.go:83] configureAuth start
+I1115 19:15:22.509082   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:15:22.509545   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:15:22.509978   15072 provision.go:86] duration metric: configureAuth took 904.271µs
+W1115 19:15:22.509995   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:15:22.510014   15072 retry.go:31] will retry after 2.012724691s: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:15:24.522872   15072 provision.go:83] configureAuth start
+I1115 19:15:24.522893   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:15:24.523143   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:15:24.523305   15072 provision.go:86] duration metric: configureAuth took 424.236µs
+W1115 19:15:24.523312   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:15:24.523323   15072 retry.go:31] will retry after 4.744335389s: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:15:29.267805   15072 provision.go:83] configureAuth start
+I1115 19:15:29.267827   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:15:29.268191   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:15:29.268429   15072 provision.go:86] duration metric: configureAuth took 613.541µs
+W1115 19:15:29.268437   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:15:29.268449   15072 retry.go:31] will retry after 4.014454686s: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:15:33.284048   15072 provision.go:83] configureAuth start
+I1115 19:15:33.284074   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:15:33.284435   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:15:33.284638   15072 provision.go:86] duration metric: configureAuth took 578.535µs
+W1115 19:15:33.284647   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:15:33.284659   15072 retry.go:31] will retry after 11.635741654s: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:15:44.921803   15072 provision.go:83] configureAuth start
+I1115 19:15:44.921900   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:15:44.922317   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:15:44.922670   15072 provision.go:86] duration metric: configureAuth took 848.209µs
+W1115 19:15:44.922685   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:15:44.922705   15072 retry.go:31] will retry after 15.298130033s: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:16:00.222223   15072 provision.go:83] configureAuth start
+I1115 19:16:00.222259   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:16:00.222714   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:16:00.223084   15072 provision.go:86] duration metric: configureAuth took 841.197µs
+W1115 19:16:00.223100   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:16:00.223119   15072 retry.go:31] will retry after 19.631844237s: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:16:19.855637   15072 provision.go:83] configureAuth start
+I1115 19:16:19.855664   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:16:19.856022   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:16:19.856223   15072 provision.go:86] duration metric: configureAuth took 574.067µs
+W1115 19:16:19.856230   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:16:19.856241   15072 retry.go:31] will retry after 15.195386994s: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:16:35.052951   15072 provision.go:83] configureAuth start
+I1115 19:16:35.052991   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:16:35.053484   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:16:35.053863   15072 provision.go:86] duration metric: configureAuth took 891.552µs
+W1115 19:16:35.053879   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:16:35.053898   15072 retry.go:31] will retry after 28.402880652s: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:17:03.457394   15072 provision.go:83] configureAuth start
+I1115 19:17:03.457432   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:17:03.457892   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:17:03.458249   15072 provision.go:86] duration metric: configureAuth took 836.134µs
+W1115 19:17:03.458262   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:17:03.458280   15072 buildroot.go:185] Error configuring auth during provisioning Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:17:03.458285   15072 machine.go:91] provisioned docker machine in 7m46.029327267s
+I1115 19:17:03.458322   15072 fix.go:57] fixHost completed within 7m46.064554801s
+I1115 19:17:03.458328   15072 start.go:83] releasing machines lock for "genson-kube", held for 7m46.065013687s
+W1115 19:17:03.458356   15072 start.go:603] error starting host: provision: Temporary Error: error getting ip during provisioning: IP address is not set
+W1115 19:17:03.464204   15072 out.go:239] 🤦  StartHost failed, but will try again: provision: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:17:03.464246   15072 start.go:618] Will try again in 5 seconds ...
+I1115 19:17:08.465635   15072 start.go:364] acquiring machines lock for genson-kube: {Name:mk14f6b2d52cda13ecff7391840e988d3d1473c2 Clock:{} Delay:500ms Timeout:13m0s Cancel:<nil>}
+I1115 19:17:08.465844   15072 start.go:368] acquired machines lock for "genson-kube" in 179.233µs
+I1115 19:17:08.465881   15072 start.go:96] Skipping create...Using existing machine configuration
+I1115 19:17:08.465888   15072 fix.go:55] fixHost starting: 
+I1115 19:17:08.466486   15072 main.go:134] libmachine: Found binary path at /Users/genson/.minikube/bin/docker-machine-driver-hyperkit
+I1115 19:17:08.466517   15072 main.go:134] libmachine: Launching plugin server for driver hyperkit
+I1115 19:17:08.478155   15072 main.go:134] libmachine: Plugin server listening at address 127.0.0.1:53217
+I1115 19:17:08.478819   15072 main.go:134] libmachine: () Calling .GetVersion
+I1115 19:17:08.479415   15072 main.go:134] libmachine: Using API Version  1
+I1115 19:17:08.479426   15072 main.go:134] libmachine: () Calling .SetConfigRaw
+I1115 19:17:08.479753   15072 main.go:134] libmachine: () Calling .GetMachineName
+I1115 19:17:08.479946   15072 main.go:134] libmachine: (genson-kube) Calling .DriverName
+I1115 19:17:08.480111   15072 main.go:134] libmachine: (genson-kube) Calling .GetState
+I1115 19:17:08.480252   15072 main.go:134] libmachine: (genson-kube) DBG | exe=/Users/genson/.minikube/bin/docker-machine-driver-hyperkit uid=0
+I1115 19:17:08.480350   15072 main.go:134] libmachine: (genson-kube) DBG | hyperkit pid from json: 12299
+I1115 19:17:08.482286   15072 fix.go:103] recreateIfNeeded on genson-kube: state=Running err=<nil>
+W1115 19:17:08.482299   15072 fix.go:129] unexpected machine state, will restart: <nil>
+I1115 19:17:08.491194   15072 out.go:177] 🏃  Updating the running hyperkit "genson-kube" VM ...
+I1115 19:17:08.504536   15072 machine.go:88] provisioning docker machine ...
+I1115 19:17:08.504575   15072 main.go:134] libmachine: (genson-kube) Calling .DriverName
+I1115 19:17:08.504901   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:17:08.505053   15072 buildroot.go:166] provisioning hostname "genson-kube"
+I1115 19:17:08.505067   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:17:08.505236   15072 main.go:134] libmachine: (genson-kube) Calling .GetSSHHostname
+I1115 19:17:08.505406   15072 main.go:134] libmachine: (genson-kube) Calling .GetSSHPort
+I1115 19:17:08.505574   15072 main.go:134] libmachine: (genson-kube) Calling .GetSSHKeyPath
+I1115 19:17:08.505743   15072 main.go:134] libmachine: (genson-kube) Calling .GetSSHKeyPath
+I1115 19:17:08.505873   15072 main.go:134] libmachine: (genson-kube) Calling .GetSSHUsername
+I1115 19:17:08.506169   15072 main.go:134] libmachine: Using SSH client type: native
+I1115 19:17:08.506368   15072 main.go:134] libmachine: &{{{<nil> 0 [] [] []} docker [0x1003ed820] 0x1003f09a0 <nil>  [] 0s}  22 <nil> <nil>}
+I1115 19:17:08.506383   15072 main.go:134] libmachine: About to run SSH command:
+sudo hostname genson-kube && echo "genson-kube" | sudo tee /etc/hostname
+I1115 19:17:08.507011   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:17:11.508328   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:17:14.510021   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:17:17.510741   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:17:20.512143   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:17:23.513791   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:17:26.515176   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:17:29.516783   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:17:32.517647   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:17:35.518324   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:17:38.520017   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:17:41.521659   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:17:44.522843   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:17:47.523613   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:17:50.525251   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:17:53.525795   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:17:56.527510   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:17:59.528178   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:18:02.528721   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:18:05.530197   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:18:08.531235   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:18:11.531829   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:18:14.533455   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:18:17.535029   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:18:20.536705   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:18:23.537393   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:18:26.538985   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:18:29.540658   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:18:32.542127   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:18:35.543779   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:18:38.545144   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:18:41.546781   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:18:44.547823   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:18:47.548671   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:18:50.550356   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:18:53.550731   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:18:56.551296   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:18:59.553062   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:19:02.553412   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:19:05.555066   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:19:08.555737   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:19:11.557280   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:19:14.558535   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:19:17.559622   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:19:20.560265   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:19:23.561193   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:19:26.562736   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:19:29.564383   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:19:32.565991   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:19:35.567266   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:19:38.568775   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:19:41.569575   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:19:44.571256   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:19:47.572839   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:19:50.573439   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:19:53.574630   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:19:56.576277   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:19:59.577573   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:20:02.578110   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:20:05.579781   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:20:08.579996   15072 main.go:134] libmachine: SSH cmd err, output: <nil>: 
+I1115 19:20:08.580020   15072 main.go:134] libmachine: (genson-kube) Calling .GetSSHHostname
+I1115 19:20:08.580288   15072 main.go:134] libmachine: (genson-kube) Calling .GetSSHPort
+I1115 19:20:08.580439   15072 main.go:134] libmachine: (genson-kube) Calling .GetSSHKeyPath
+I1115 19:20:08.580562   15072 main.go:134] libmachine: (genson-kube) Calling .GetSSHKeyPath
+I1115 19:20:08.580709   15072 main.go:134] libmachine: (genson-kube) Calling .GetSSHUsername
+I1115 19:20:08.580916   15072 main.go:134] libmachine: Using SSH client type: native
+I1115 19:20:08.581118   15072 main.go:134] libmachine: &{{{<nil> 0 [] [] []} docker [0x1003ed820] 0x1003f09a0 <nil>  [] 0s}  22 <nil> <nil>}
+I1115 19:20:08.581133   15072 main.go:134] libmachine: About to run SSH command:
+
+		if ! grep -xq '.*\sgenson-kube' /etc/hosts; then
+			if grep -xq '127.0.1.1\s.*' /etc/hosts; then
+				sudo sed -i 's/^127.0.1.1\s.*/127.0.1.1 genson-kube/g' /etc/hosts;
+			else 
+				echo '127.0.1.1 genson-kube' | sudo tee -a /etc/hosts; 
+			fi
+		fi
+I1115 19:20:08.581311   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:20:11.582469   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:20:14.583438   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:20:17.584179   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:20:20.585822   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:20:23.587163   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:20:26.588878   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:20:29.590165   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:20:32.591708   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:20:35.593284   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:20:38.593860   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:20:41.594442   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:20:44.595685   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:20:47.597334   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:20:50.598960   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:20:53.599869   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:20:56.600456   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:20:59.600845   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:21:02.601731   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:21:05.602396   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:21:08.603798   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:21:11.605518   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:21:14.606611   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:21:17.608280   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:21:20.609308   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:21:23.610112   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:21:26.610901   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:21:29.612650   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:21:32.613835   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:21:35.615547   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:21:38.616284   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:21:41.617043   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:21:44.618665   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:21:47.620164   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:21:50.621764   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:21:53.622593   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:21:56.623127   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:21:59.624771   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:22:02.626284   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:22:05.627106   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:22:08.628206   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:22:11.628942   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:22:14.630194   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:22:17.631544   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:22:20.633064   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:22:23.634400   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:22:26.635680   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:22:29.636753   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:22:32.638367   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:22:35.640014   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:22:38.641673   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:22:41.643359   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:22:44.643760   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:22:47.645384   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:22:50.646685   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:22:53.647101   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:22:56.648777   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:22:59.649436   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:23:02.651026   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:23:05.651655   15072 main.go:134] libmachine: Error dialing TCP: dial tcp :22: connect: connection refused
+I1115 19:23:08.652957   15072 main.go:134] libmachine: SSH cmd err, output: <nil>: 
+I1115 19:23:08.652982   15072 buildroot.go:172] set auth options {CertDir:/Users/genson/.minikube CaCertPath:/Users/genson/.minikube/certs/ca.pem CaPrivateKeyPath:/Users/genson/.minikube/certs/ca-key.pem CaCertRemotePath:/etc/docker/ca.pem ServerCertPath:/Users/genson/.minikube/machines/server.pem ServerKeyPath:/Users/genson/.minikube/machines/server-key.pem ClientKeyPath:/Users/genson/.minikube/certs/key.pem ServerCertRemotePath:/etc/docker/server.pem ServerKeyRemotePath:/etc/docker/server-key.pem ClientCertPath:/Users/genson/.minikube/certs/cert.pem ServerCertSANs:[] StorePath:/Users/genson/.minikube}
+I1115 19:23:08.653024   15072 buildroot.go:174] setting up certificates
+I1115 19:23:08.653035   15072 provision.go:83] configureAuth start
+I1115 19:23:08.653050   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:08.653513   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:08.653904   15072 provision.go:86] duration metric: configureAuth took 857.735µs
+W1115 19:23:08.653918   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.653953   15072 retry.go:31] will retry after 147.525µs: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.654146   15072 provision.go:83] configureAuth start
+I1115 19:23:08.654167   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:08.654521   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:08.654921   15072 provision.go:86] duration metric: configureAuth took 764.035µs
+W1115 19:23:08.654934   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.654947   15072 retry.go:31] will retry after 86.918µs: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.655074   15072 provision.go:83] configureAuth start
+I1115 19:23:08.655099   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:08.655467   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:08.655851   15072 provision.go:86] duration metric: configureAuth took 763.889µs
+W1115 19:23:08.655864   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.655876   15072 retry.go:31] will retry after 246.332µs: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.656231   15072 provision.go:83] configureAuth start
+I1115 19:23:08.656255   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:08.656563   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:08.656881   15072 provision.go:86] duration metric: configureAuth took 637.973µs
+W1115 19:23:08.656892   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.656905   15072 retry.go:31] will retry after 188.703µs: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.657154   15072 provision.go:83] configureAuth start
+I1115 19:23:08.657179   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:08.657477   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:08.657765   15072 provision.go:86] duration metric: configureAuth took 598.061µs
+W1115 19:23:08.657775   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.657789   15072 retry.go:31] will retry after 603.463µs: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.658522   15072 provision.go:83] configureAuth start
+I1115 19:23:08.658540   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:08.658920   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:08.659214   15072 provision.go:86] duration metric: configureAuth took 682.992µs
+W1115 19:23:08.659237   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.659250   15072 retry.go:31] will retry after 608.656µs: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.659976   15072 provision.go:83] configureAuth start
+I1115 19:23:08.659995   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:08.660253   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:08.660509   15072 provision.go:86] duration metric: configureAuth took 522.001µs
+W1115 19:23:08.660520   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.660532   15072 retry.go:31] will retry after 766.892µs: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.661442   15072 provision.go:83] configureAuth start
+I1115 19:23:08.661471   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:08.661695   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:08.661916   15072 provision.go:86] duration metric: configureAuth took 464.25µs
+W1115 19:23:08.661926   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.661938   15072 retry.go:31] will retry after 1.778816ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.663990   15072 provision.go:83] configureAuth start
+I1115 19:23:08.664021   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:08.664315   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:08.664620   15072 provision.go:86] duration metric: configureAuth took 609.434µs
+W1115 19:23:08.664633   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.664653   15072 retry.go:31] will retry after 2.676055ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.667402   15072 provision.go:83] configureAuth start
+I1115 19:23:08.667432   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:08.667895   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:08.668271   15072 provision.go:86] duration metric: configureAuth took 857.149µs
+W1115 19:23:08.668281   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.668293   15072 retry.go:31] will retry after 2.992842ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.671768   15072 provision.go:83] configureAuth start
+I1115 19:23:08.671792   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:08.672011   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:08.672241   15072 provision.go:86] duration metric: configureAuth took 464.425µs
+W1115 19:23:08.672249   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.672258   15072 retry.go:31] will retry after 5.323356ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.678438   15072 provision.go:83] configureAuth start
+I1115 19:23:08.678464   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:08.678773   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:08.679025   15072 provision.go:86] duration metric: configureAuth took 572.682µs
+W1115 19:23:08.679037   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.679053   15072 retry.go:31] will retry after 8.914307ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.688138   15072 provision.go:83] configureAuth start
+I1115 19:23:08.688187   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:08.688494   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:08.688749   15072 provision.go:86] duration metric: configureAuth took 586.5µs
+W1115 19:23:08.688757   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.688769   15072 retry.go:31] will retry after 9.776903ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.699173   15072 provision.go:83] configureAuth start
+I1115 19:23:08.699278   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:08.699715   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:08.700115   15072 provision.go:86] duration metric: configureAuth took 908.816µs
+W1115 19:23:08.700131   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.700153   15072 retry.go:31] will retry after 15.220808ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.715657   15072 provision.go:83] configureAuth start
+I1115 19:23:08.715704   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:08.715960   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:08.716147   15072 provision.go:86] duration metric: configureAuth took 456.79µs
+W1115 19:23:08.716164   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.716176   15072 retry.go:31] will retry after 37.618113ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.755011   15072 provision.go:83] configureAuth start
+I1115 19:23:08.755064   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:08.755506   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:08.755792   15072 provision.go:86] duration metric: configureAuth took 765.797µs
+W1115 19:23:08.755804   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.755820   15072 retry.go:31] will retry after 37.7379ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.794628   15072 provision.go:83] configureAuth start
+I1115 19:23:08.794676   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:08.795084   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:08.795443   15072 provision.go:86] duration metric: configureAuth took 795.95µs
+W1115 19:23:08.795454   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.795468   15072 retry.go:31] will retry after 90.679625ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.886745   15072 provision.go:83] configureAuth start
+I1115 19:23:08.886782   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:08.887302   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:08.887604   15072 provision.go:86] duration metric: configureAuth took 842.639µs
+W1115 19:23:08.887615   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.887629   15072 retry.go:31] will retry after 78.536309ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.967383   15072 provision.go:83] configureAuth start
+I1115 19:23:08.967417   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:08.967859   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:08.968243   15072 provision.go:86] duration metric: configureAuth took 840.238µs
+W1115 19:23:08.968259   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:08.968294   15072 retry.go:31] will retry after 206.071394ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:23:09.175503   15072 provision.go:83] configureAuth start
+I1115 19:23:09.175537   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:09.175977   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:09.176317   15072 provision.go:86] duration metric: configureAuth took 795.442µs
+W1115 19:23:09.176333   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:09.176354   15072 retry.go:31] will retry after 132.445874ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:23:09.309156   15072 provision.go:83] configureAuth start
+I1115 19:23:09.309183   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:09.309490   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:09.309756   15072 provision.go:86] duration metric: configureAuth took 584.983µs
+W1115 19:23:09.309779   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:09.309793   15072 retry.go:31] will retry after 491.112312ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:23:09.802152   15072 provision.go:83] configureAuth start
+I1115 19:23:09.802187   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:09.802724   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:09.803115   15072 provision.go:86] duration metric: configureAuth took 942.437µs
+W1115 19:23:09.803131   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:09.803150   15072 retry.go:31] will retry after 286.44948ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:23:10.090833   15072 provision.go:83] configureAuth start
+I1115 19:23:10.090982   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:10.091399   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:10.091735   15072 provision.go:86] duration metric: configureAuth took 881.368µs
+W1115 19:23:10.091751   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:10.091784   15072 retry.go:31] will retry after 540.403981ms: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:23:10.632274   15072 provision.go:83] configureAuth start
+I1115 19:23:10.632303   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:10.632684   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:10.632934   15072 provision.go:86] duration metric: configureAuth took 647.977µs
+W1115 19:23:10.632941   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:10.632953   15072 retry.go:31] will retry after 1.325492401s: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:23:11.959661   15072 provision.go:83] configureAuth start
+I1115 19:23:11.959696   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:11.960138   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:11.960512   15072 provision.go:86] duration metric: configureAuth took 831.636µs
+W1115 19:23:11.960528   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:11.960547   15072 retry.go:31] will retry after 1.248273638s: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:23:13.210061   15072 provision.go:83] configureAuth start
+I1115 19:23:13.210179   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:13.210720   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:13.211164   15072 provision.go:86] duration metric: configureAuth took 1.084824ms
+W1115 19:23:13.211184   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:13.211211   15072 retry.go:31] will retry after 2.049187042s: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:23:15.261672   15072 provision.go:83] configureAuth start
+I1115 19:23:15.261708   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:15.262181   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:15.262603   15072 provision.go:86] duration metric: configureAuth took 912.452µs
+W1115 19:23:15.262618   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:15.262637   15072 retry.go:31] will retry after 5.427151811s: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:23:20.691058   15072 provision.go:83] configureAuth start
+I1115 19:23:20.691104   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:20.691623   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:20.691952   15072 provision.go:86] duration metric: configureAuth took 872.482µs
+W1115 19:23:20.691964   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:20.691979   15072 retry.go:31] will retry after 7.055574168s: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:23:27.747755   15072 provision.go:83] configureAuth start
+I1115 19:23:27.747793   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:27.748229   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:27.748632   15072 provision.go:86] duration metric: configureAuth took 857.121µs
+W1115 19:23:27.748646   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:27.748667   15072 retry.go:31] will retry after 11.087930955s: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:23:38.837905   15072 provision.go:83] configureAuth start
+I1115 19:23:38.837942   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:38.838512   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:38.838899   15072 provision.go:86] duration metric: configureAuth took 973.795µs
+W1115 19:23:38.838914   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:38.838934   15072 retry.go:31] will retry after 15.726531043s: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:23:54.565728   15072 provision.go:83] configureAuth start
+I1115 19:23:54.565750   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:23:54.566011   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:23:54.566211   15072 provision.go:86] duration metric: configureAuth took 472.457µs
+W1115 19:23:54.566219   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:23:54.566230   15072 retry.go:31] will retry after 13.095145218s: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:24:07.662738   15072 provision.go:83] configureAuth start
+I1115 19:24:07.662773   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:24:07.663243   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:24:07.663632   15072 provision.go:86] duration metric: configureAuth took 873.478µs
+W1115 19:24:07.663650   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:24:07.663670   15072 retry.go:31] will retry after 26.701992799s: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:24:34.381305   15072 provision.go:83] configureAuth start
+I1115 19:24:34.381330   15072 main.go:134] libmachine: (genson-kube) Calling .GetMachineName
+I1115 19:24:34.381639   15072 main.go:134] libmachine: (genson-kube) Calling .GetIP
+I1115 19:24:34.381927   15072 provision.go:86] duration metric: configureAuth took 606.79µs
+W1115 19:24:34.381937   15072 buildroot.go:177] configureAuth failed: error getting ip during provisioning: IP address is not set
+I1115 19:24:34.381952   15072 buildroot.go:185] Error configuring auth during provisioning Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:24:34.381969   15072 machine.go:91] provisioned docker machine in 7m25.857665972s
+I1115 19:24:34.381982   15072 fix.go:57] fixHost completed within 7m25.896351458s
+I1115 19:24:34.381987   15072 start.go:83] releasing machines lock for "genson-kube", held for 7m25.896386949s
+W1115 19:24:34.382188   15072 out.go:239] 😿  Failed to start hyperkit VM. Running "minikube delete -p genson-kube" may fix it: provision: Temporary Error: error getting ip during provisioning: IP address is not set
+I1115 19:24:34.399421   15072 out.go:177] 
+W1115 19:24:34.405165   15072 out.go:239] ❌  Exiting due to GUEST_PROVISION: Failed to start host: provision: Temporary Error: error getting ip during provisioning: IP address is not set
+W1115 19:24:34.405187   15072 out.go:239] 
+W1115 19:24:34.406401   15072 out.go:239] [31m╭───────────────────────────────────────────────────────────────────────────────────────────╮[0m
+[31m│[0m                                                                                           [31m│[0m
+[31m│[0m    😿  If the above advice does not help, please let us know:                             [31m│[0m
+[31m│[0m    👉  https://github.com/kubernetes/minikube/issues/new/choose                           [31m│[0m
+[31m│[0m                                                                                           [31m│[0m
+[31m│[0m    Please run `minikube logs --file=logs.txt` and attach logs.txt to the GitHub issue.    [31m│[0m
+[31m│[0m                                                                                           [31m│[0m
+[31m╰───────────────────────────────────────────────────────────────────────────────────────────╯[0m
+I1115 19:24:34.417096   15072 out.go:177] 
+
+* 

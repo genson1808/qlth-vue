@@ -29,8 +29,7 @@
           </div>
           <form id="add-employee-form">
             <div class="form-wrapper">
-              <InputDataList
-                :recommends="[recommendCode]"
+              <BaseInput
                 :required="true"
                 name="employeeCode"
                 :error="errors.code"
@@ -138,11 +137,10 @@ import BaseInput from "@/components/BaseInput.vue";
 import Combobox from "@/components/Combobox.vue";
 import Dropdown from "@/components/Dropdown.vue";
 import Checkbox from "@/components/Checkbox.vue";
-import InputDataList from "./InputDataList.vue";
 
 import { useStore } from "vuex";
 import { validate } from "@/helpers/validator.js";
-import { ref, reactive, watch, computed, onBeforeMount } from "vue";
+import { ref, reactive, watch, computed, onBeforeMount, onMounted } from "vue";
 
 const props = defineProps({
   modelValue: {
@@ -188,6 +186,10 @@ onBeforeMount(async () => {
 
 const recommendCode = computed(() => {
   return store.getters.recommendCode;
+});
+
+onMounted(() => {
+  employee.value.employeeCode = recommendCode;
 });
 
 /**
