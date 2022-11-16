@@ -8,32 +8,65 @@
           </div>
           <div class="btn-upload">Chọn ảnh</div>
           <div class="info-box">
-            <h4 class="fullname"> {{ employee.employeeName ? employee.employeeName : "Họ và tên" }} </h4>
-            <h5 class="code"> {{ employee.employeeCode ? employee.employeeCode : "SHC001" }} </h5>
+            <h4 class="fullname">
+              {{ employee.employeeName ? employee.employeeName : "Họ và tên" }}
+            </h4>
+            <h5 class="code">
+              {{ employee.employeeCode ? employee.employeeCode : "SHC001" }}
+            </h5>
           </div>
         </div>
       </div>
       <div class="body__right">
         <div class="add__employee--dialog">
-          <div class="title"> {{ formType == "create" ? 'Thêm hồ sơ cán bộ, giáo viên' : `Chỉnh sửa hồ sơ cán bộ giáo
-          viên`}}</div>
+          <div class="title">
+            {{
+              formType == "create"
+                ? "Thêm hồ sơ cán bộ, giáo viên"
+                : `Chỉnh sửa hồ sơ cán bộ giáo
+          viên`
+            }}
+          </div>
           <form id="add-employee-form">
             <div class="form-wrapper">
-              <InputDataList :recommends="[recommendCode]" :required="true" name="employeeCode" :error="errors.code"
-                v-model="employee.employeeCode" label="Số hiệu cán bộ" class="form-stack-1" />
-              <!-- <BaseInput :required="true" name="employeeCode" :error="errors.code" v-model="employee.employeeCode"
-                label="Số hiệu cán bộ" class="form-stack-1" /> -->
-              <BaseInput :required="true" name="employeeName" :error="errors.name" v-model="employee.employeeName"
-                label="Họ và tên" class="form-stack-2" />
-              <BaseInput name="phoneNumber" :error="errors.phone" v-model="employee.phoneNumber" label="Số điện thoại"
-                class="form-stack-3" />
-              <BaseInput name="email" :error="errors.email" v-model="employee.email" label="Email"
-                class="form-stack-4" />
+              <BaseInput
+                :required="true"
+                name="employeeCode"
+                :error="errors.code"
+                v-model="employee.employeeCode"
+                label="Số hiệu cán bộ"
+                class="form-stack-1"
+              />
+              <BaseInput
+                :required="true"
+                name="employeeName"
+                :error="errors.name"
+                v-model="employee.employeeName"
+                label="Họ và tên"
+                class="form-stack-2"
+              />
+              <BaseInput
+                name="phoneNumber"
+                :error="errors.phone"
+                v-model="employee.phoneNumber"
+                label="Số điện thoại"
+                class="form-stack-3"
+              />
+              <BaseInput
+                name="email"
+                :error="errors.email"
+                v-model="employee.email"
+                label="Email"
+                class="form-stack-4"
+              />
               <div class="form-stack-5 input-stack">
                 <div class="wrap-label">
                   <label title="Tổ bộ môn">Tổ bộ môn</label>
                 </div>
-                <Dropdown v-model="employee.departmentID" :data="getDepartments" />
+                <Dropdown
+                  v-model="employee.departmentID"
+                  :data="getDepartments"
+                />
               </div>
               <div class="form-stack-6 input-stack">
                 <div class="wrap-label">
@@ -45,28 +78,50 @@
                 <div class="wrap-label">
                   <label title="Quản lý kho, phòng">QL kho, phòng</label>
                 </div>
-                <Combobox v-model="employee.rooms" :data="getRooms" :width="580" />
+                <Combobox
+                  v-model="employee.rooms"
+                  :data="getRooms"
+                  :width="580"
+                />
               </div>
               <div class="form-stack-8 input-stack">
                 <div class="checkbox-wrapper">
-                  <Checkbox v-model="employee.IsEquipmentManagement" />
+                  <Checkbox v-model="employee.isEquipmentManagement" />
                   <span class="cb-value ml-8"> Trình độ nghiệp vụ QLTB </span>
                 </div>
                 <div class="checkbox-wrapper">
                   <Checkbox v-model="employee.isWorking" />
                   <span class="cb-value ml-8"> Đang làm việc</span>
                 </div>
-                <div class="day-off" :class="employee.isWorking ? 'day-off--hidden' : ''">
+                <div
+                  class="day-off"
+                  :class="employee.isWorking ? 'day-off--hidden' : ''"
+                >
                   <div>
-                    <label for="day-off-cb" title="Ngày nghỉ việc" class="checkbox__label"></label>
+                    <label
+                      for="day-off-cb"
+                      title="Ngày nghỉ việc"
+                      class="checkbox__label"
+                    ></label>
                     <span class="cb-value mr-8"> Ngày nghỉ việc </span>
-                    <input type="date" id="day-off-cb" />
+                    <input
+                      v-model="employee.dayOfResignation"
+                      type="date"
+                      id="day-off-cb"
+                    />
                   </div>
                 </div>
               </div>
               <div class="form-stack-9 input-stack">
-                <div class="btn__close--dialog btn btn--white mr-8" @click="closeDialog"> Đóng </div>
-                <div class="btn__save btn btn--green mr-0" @click="submit"> Lưu </div>
+                <div
+                  class="btn__close--dialog btn btn--white mr-8"
+                  @click="closeDialog"
+                >
+                  Đóng
+                </div>
+                <div class="btn__save btn btn--green mr-0" @click="submit">
+                  Lưu
+                </div>
               </div>
             </div>
           </form>
@@ -82,10 +137,10 @@ import BaseInput from "@/components/BaseInput.vue";
 import Combobox from "@/components/Combobox.vue";
 import Dropdown from "@/components/Dropdown.vue";
 import Checkbox from "@/components/Checkbox.vue";
-import { useStore } from 'vuex';
+
+import { useStore } from "vuex";
 import { validate } from "@/helpers/validator.js";
-import { ref, reactive, watch, computed, onBeforeMount } from "vue";
-import InputDataList from "./InputDataList.vue";
+import { ref, reactive, watch, computed, onBeforeMount, onMounted } from "vue";
 
 const props = defineProps({
   modelValue: {
@@ -98,6 +153,7 @@ const props = defineProps({
       rooms: [],
       subjects: [],
       department: "",
+      dayOfResignation: "",
       IsEquipmentManagement: false,
       isWorking: true,
     },
@@ -108,70 +164,97 @@ const props = defineProps({
   },
   formType: {
     type: String,
-    default: "create"
-  }
+    default: "create",
+  },
 });
-const emit = defineEmits(['update:modelValue', 'update:showDialog'])
+const emit = defineEmits(["update:modelValue", "update:showDialog"]);
 
-const employee = ref(props.modelValue)
+const employee = ref(props.modelValue);
+
 const store = useStore();
 
+/**
+ * Trước khi mount check nếu là dialog cho thêm
+ * cán bộ, giáo viên thì load recommend code cán bộ, giáo viên
+ * @author SONTB (10/10/2022)
+ */
 onBeforeMount(async () => {
   if (props.formType == "create") {
-    await store.dispatch('getRecommendCode')
+    await store.dispatch("getRecommendCode");
   }
 });
 
 const recommendCode = computed(() => {
   return store.getters.recommendCode;
-})
+});
 
-// Gettter danh sách tổ chuyên môn từ store
-// Xử lý chuyển dữ liệu cần thiết để tối ưu hiệu năng với O(1)
+onMounted(() => {
+  employee.value.employeeCode = recommendCode;
+});
+
+/**
+ * Gettter danh sách tổ chuyên môn từ store
+ * Xử lý chuyển dữ liệu cần thiết sử dụng Map để tối ưu hiệu năng với O(1)
+ * @author SONTB (10/10/2022)
+ */
 const getDepartments = computed(() => {
   const m = new Map();
-  Array.from(store.getters.departments).forEach(e => {
+  Array.from(store.getters.departments).forEach((e) => {
     m.set(e.DepartmentID, e.DepartmentName);
-  })
-  return m;
-})
-
-// Gettter danh sách môn học từ store
-// Xử lý chuyển dữ liệu cần thiết để tối ưu hiệu năng với O(1)
-const getSubjects = computed(() => {
-  const m = new Map();
-  Array.from(store.getters.subjects).forEach(e => {
-    m.set(e.SubjectID, e.SubjectName);
-  })
-  return m;
-})
-
-// Gettter danh sách kho, phòng từ store
-const getRooms = computed(() => {
-  const m = new Map();
-  Array.from(store.getters.rooms).forEach(e => {
-    m.set(e.RoomID, e.RoomName);
-  })
+  });
   return m;
 });
 
+/**
+ *Gettter danh sách môn học từ store
+ * Xử lý chuyển dữ liệu cần thiết sử dụng Map để tối ưu hiệu năng với O(1)
+ * @author SONTB (10/10/2022)
+ */
+const getSubjects = computed(() => {
+  const m = new Map();
+  Array.from(store.getters.subjects).forEach((e) => {
+    m.set(e.SubjectID, e.SubjectName);
+  });
+  return m;
+});
 
+/**
+ * Gettter danh sách kho, phòng từ store
+ * @author SONTB (10/10/2022)
+ */
+const getRooms = computed(() => {
+  const m = new Map();
+  Array.from(store.getters.rooms).forEach((e) => {
+    m.set(e.RoomID, e.RoomName);
+  });
+  return m;
+});
+
+/**
+ * clear data mapping trong các input khi đóng dialog
+ * @author SONTB (10/10/2022)
+ */
 const closeDialog = () => {
-  emit('update:showDialog', false)
-  employee.value.employeeName = ""
-  employee.value.employeeCode = ""
-  employee.value.phoneNumber = ""
-  employee.value.email = ""
-  employee.value.departmentID= ""
-  employee.value.rooms = []
-  employee.value.subjects = []
-  employee.value.department = ""
-  employee.value.IsEquipmentManagement = false
-  employee.value.isWorking = true
+  emit("update:showDialog", false);
+  employee.value.employeeName = "";
+  employee.value.employeeCode = "";
+  employee.value.phoneNumber = "";
+  employee.value.email = "";
+  employee.value.departmentID = "";
+  employee.value.rooms = [];
+  employee.value.subjects = [];
+  employee.value.department = "";
+  (employee.value.dayOfResignation = ""),
+    (employee.value.IsEquipmentManagement = false);
+  employee.value.isWorking = true;
 };
 
 const dialog = ref(null);
 
+/**
+ * xử lý error
+ * @author SONTB (10/10/2022)
+ */
 const errors = reactive({
   code: "",
   name: "",
@@ -182,35 +265,41 @@ const errors = reactive({
 /**
  * Thực hiện validate các fields
  */
-watch(() => employee.employeeCode, () => {
-  errors["code"] = validate(["required"], employee.employeeCode)[0];
-})
-
-watch(() => employee.employeeName, () => {
-  errors["name"] = validate(["required"], employee.employeeName)[0];
-})
+watch(
+  () => employee.value.employeeCode,
+  () => {
+    errors["code"] = validate(["required"], employee.value.employeeCode)[0];
+  }
+);
 
 watch(
-  () => employee.email,
+  () => employee.value.employeeName,
   () => {
-    if (employee.email != '') {
-      errors["email"] = validate(["email"], employee.email)[0];
-    } else {
-      errors["email"] = ''
-    }
+    errors["name"] = validate(["required"], employee.value.employeeName)[0];
   }
-)
+);
 
 watch(
-  () => employee.phoneNumber,
+  () => employee.value.email,
   () => {
-    if (employee.phoneNumber != '') {
-      errors["phone"] = validate(["phone"], employee.phoneNumber)[0];
+    if (employee.value.email != "") {
+      errors["email"] = validate(["email"], employee.value.email)[0];
     } else {
-      errors["phone"] = ''
+      errors["email"] = "";
     }
   }
-)
+);
+
+watch(
+  () => employee.value.phoneNumber,
+  () => {
+    if (employee.value.phoneNumber != "") {
+      errors["phone"] = validate(["phone"], employee.value.phoneNumber)[0];
+    } else {
+      errors["phone"] = "";
+    }
+  }
+);
 
 async function submit() {
   // revalidate lại khi submit để đảm bảo tính nhất quán
@@ -229,24 +318,26 @@ async function submit() {
         rooms: employee.value.rooms,
         subjects: employee.value.subjects,
         departmentID: employee.value.departmentID,
-        IsEquipmentManagement: employee.value.IsEquipmentManagement,
-        isWorking: employee.value.IsWorking
-      }
+        isEquipmentManagement: employee.value.IsEquipmentManagement,
+        isWorking: employee.value.IsWorking,
+        dayOfResignation: employee.value.dayOfResignation,
+      };
 
-      await store.dispatch('createEmployee', data);
+      /* call api create employee */
+      await store.dispatch("createEmployee", data);
+      /* sau khi call api thành công thì load lại data thay đổi */
       await store.dispatch("loadEmployees");
       closeDialog();
     } catch (error) {
-      console.log("error from try catch")
-      var errRes = JSON.parse(error.message)
+      console.log("error from try catch");
+      var errRes = JSON.parse(error.message);
       errors["code"] = errRes.MoreInfo.EmployeeCode;
       errors["name"] = errRes.MoreInfo.EmployeeName;
       errors["phone"] = errRes.MoreInfo.PhoneNumber;
-      errors["email"] = errRes.MoreInfo.Email.join('\n');
+      errors["email"] = errRes.MoreInfo.Email.join("\n");
     }
-  };
+  }
 }
-
 </script>
 
 <style lang="scss" scoped>
@@ -534,7 +625,7 @@ input[type="date"] {
 }
 
 .input--error {
-  border: '1px solid #ff8b87'
+  border: "1px solid #ff8b87";
 }
 
 .ml-8 {

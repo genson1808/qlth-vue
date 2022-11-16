@@ -2,16 +2,26 @@
   <div :style="{ width: width + 'px' }" class="b-input">
     <label for="ip-name" :class="required ? 'required' : ''">{{ label }}</label>
     <div class="ip-wrapper">
-      <input tabindex="0" id="ip-name" :style="{ width: ipWidth + 'px' }" class="input" type="text" :value="modelValue"
-        :name="name" @input="$emit('update:modelValue', $event.target.value)" :class="error ? 'input--error' : ''"
-        @mouseover="mouseOver" @mouseleave="mouseOut" />
+      <input
+        tabindex="0"
+        id="ip-name"
+        :style="{ width: ipWidth + 'px' }"
+        class="input"
+        type="text"
+        :value="modelValue"
+        :name="name"
+        @input="$emit('update:modelValue', $event.target.value)"
+        :class="error ? 'input--error' : ''"
+        @mouseover="mouseOver"
+        @mouseleave="mouseOut"
+      />
       <span v-show="showError" class="has-error">{{ error }}</span>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref} from 'vue';
+import { ref } from "vue";
 const props = defineProps({
   error: {
     type: String,
@@ -43,19 +53,21 @@ const props = defineProps({
   },
 });
 
-const showError = ref(false)
+/*
+ * Xử lý nếu có error ngượi dùng hover vào thi show error
+ * @author SONTB (05/10/2022)
+ */
+const showError = ref(false);
 
 const mouseOver = function () {
   if (props.error) {
     showError.value = true;
   }
-}
+};
 
 const mouseOut = function () {
   showError.value = false;
-}
-
-
+};
 </script>
 
 <style lang="scss" scoped>

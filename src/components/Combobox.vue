@@ -4,11 +4,14 @@
       <div>
         <p class="selected">
           <span class="wrap-item" v-if="checkedAll">
-            <span class="selected-item">Tất cả<span class="remove-item" @click="removeAll"></span>
-            </span></span>
+            <span class="selected-item"
+              >Tất cả<span class="remove-item" @click="removeAll"></span> </span
+          ></span>
           <span v-else class="wrap-item" v-for="(e, i) in selected" :key="i">
-            <span class="selected-item" :title="e">{{ data.get(e) }}<span class="remove-item" @click="remove(i)"></span>
-            </span></span>
+            <span class="selected-item" :title="e"
+              >{{ data.get(e)
+              }}<span class="remove-item" @click="remove(i)"></span> </span
+          ></span>
         </p>
       </div>
       <div class="toggle-combobox" @click="toggle"></div>
@@ -17,14 +20,26 @@
       <ul :class="!show ? 'combobox--hide' : ''" ref="showItem">
         <li class="check-all">
           <div class="checkbox" ref="pr" tabindex="0">
-            <input @change="onCheckAll" :checked="checkedAll" type="checkbox" :id="cbAllId" class="checkbox__input" />
+            <input
+              @change="onCheckAll"
+              :checked="checkedAll"
+              type="checkbox"
+              :id="cbAllId"
+              class="checkbox__input"
+            />
             <label :for="cbAllId" class="checkbox__checkmark"></label>
           </div>
           <div class="title">Tất cả</div>
         </li>
         <li class="combobox__item" v-for="[value, title] in data">
           <div class="checkbox" ref="pr" tabindex="0">
-            <input v-model="selected" :value="value" type="checkbox" :id="value" class="checkbox__input" />
+            <input
+              v-model="selected"
+              :value="value"
+              type="checkbox"
+              :id="value"
+              class="checkbox__input"
+            />
             <label :for="value" class="checkbox__checkmark"></label>
           </div>
           <div class="title">{{ title }}</div>
@@ -51,19 +66,17 @@ const props = defineProps({
   data: {
     type: Map,
     required: true,
-  }
+  },
 });
 const emit = defineEmits(["update:modelValue"]);
 
 const cbAllId = UniqueID().getID();
-const show = ref(false);
-
-const selected = ref([]);
 
 onMounted(() => {
-  selected.value = props.modelValue
+  selected.value = props.modelValue;
 });
 
+// xử lý checkbox checkedAll
 const checkedAll = computed(() => {
   return props.data.size === selected.value.length;
 });
@@ -79,12 +92,13 @@ useClickOutside(showItem, parent, () => {
   show.value = false;
 });
 
-
 /**
  * Theo dõi các checkbox checked và unchecked và
  * update modelValue parent truyền vào
  * @author SONTB (08/11/2022)
  */
+const selected = ref([]);
+
 watch(selected, () => {
   emit("update:modelValue", selected);
 });
@@ -105,7 +119,6 @@ function removeAll() {
   selected.value = selected.value.splice(0, selected.length);
 }
 
-
 /**
  * Xử lý sự kiện check all checkbox
  * @param {*} e event
@@ -114,11 +127,12 @@ function removeAll() {
 function onCheckAll(e) {
   // nếu checked thì add hết value vào selected
   if (e.target.checked) {
+    selected.value = [];
     for (let key of props.data.keys()) {
       selected.value.push(key);
     }
-  }
-  else { // Nếu unchecked thì remove các value đã checked
+  } else {
+    // Nếu unchecked thì remove các value đã checked
     selected.value = selected.value.splice(0, selected.length);
   }
 }
@@ -126,6 +140,8 @@ function onCheckAll(e) {
 /**
  * toggle dropdown của combobox
  */
+const show = ref(false);
+
 function toggle() {
   show.value = !show.value;
 }

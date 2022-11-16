@@ -5,7 +5,7 @@
         <thead>
           <tr>
             <td class="df-center">
-              <Checkbox v-model="selectAll" />
+              <Checkbox @change="onCheckAll" />
             </td>
             <td title="Số hiệu cán bộ">Số hiệu cán bộ</td>
             <td title="Họ và tên">Họ và tên</td>
@@ -22,8 +22,13 @@
           <tr v-for="e in modelValue.data">
             <td class="df-center">
               <div class="checkbox" ref="pr" tabindex="0">
-                <input v-model="employeesSelected" :value="e.employeeID" type="checkbox" :id="e.employeeID"
-                  class="checkbox__input" />
+                <input
+                  v-model="employeesSelected"
+                  :value="e.employeeID"
+                  type="checkbox"
+                  :id="e.employeeID"
+                  class="checkbox__input"
+                />
                 <label :for="e.employeeID" class="checkbox__checkmark"></label>
               </div>
             </td>
@@ -34,7 +39,9 @@
             <td>{{ appendSubject(e.subjects) }}</td>
             <td>{{ appendRoom(e.rooms) }}</td>
             <td class="center">
-              <span :class="e.IsEquipmentManagement ? 'data-checked' : ''"></span>
+              <span
+                :class="e.IsEquipmentManagement ? 'data-checked' : ''"
+              ></span>
             </td>
             <td class="center">
               <span :class="e.isWorking ? 'data-checked' : ''"></span>
@@ -42,7 +49,10 @@
             <td>
               <div class="btn-action-wrapper">
                 <div class="btn-action btn-edit" @click="edit(e)"></div>
-                <div class="btn-action btn-remove" @click="remove(e.employeeID)"></div>
+                <div
+                  class="btn-action btn-remove"
+                  @click="remove(e.employeeID)"
+                ></div>
               </div>
             </td>
           </tr>
@@ -50,8 +60,17 @@
       </table>
     </div>
   </div>
-  <DialogConfirm v-if="showDialogConfirm" v-model="confirmRemove" v-model:show="showDialogConfirm" />
-  <Dialog v-if="showDialog" v-model="dataEdit" v-model:showDialog="showDialog" :formType="edit" />
+  <DialogConfirm
+    v-if="showDialogConfirm"
+    v-model="confirmRemove"
+    v-model:show="showDialogConfirm"
+  />
+  <Dialog
+    v-if="showDialog"
+    v-model="dataEdit"
+    v-model:showDialog="showDialog"
+    :formType="edit"
+  />
 </template>
 
 <script setup>
@@ -69,42 +88,47 @@ const props = defineProps({
   selected: {
     type: Array,
     required: true,
-  }
-})
+  },
+});
 
 const store = useStore();
 
 /**
  * Xử lý remove
  */
-const showDialogConfirm = ref(false)
-const removeID = ref('')
-const confirmRemove = ref(false)
+const showDialogConfirm = ref(false);
+const removeID = ref("");
+const confirmRemove = ref(false);
 
 function remove(code) {
   showDialogConfirm.value = true;
   removeID.value = code;
 }
 
-watch(() => confirmRemove.value, async () => {
-  if (confirmRemove.value && removeID.value != '') {
-    console.log('xoas')
-    await store.dispatch('removeEmployee', removeID.value)
-    await store.dispatch("loadEmployees");
-    confirmRemove.value = false;
-    removeID.value = '';
+watch(
+  () => confirmRemove.value,
+  async () => {
+    if (confirmRemove.value && removeID.value != "") {
+      console.log("xoas");
+      await store.dispatch("removeEmployee", removeID.value);
+      await store.dispatch("loadEmployees");
+      confirmRemove.value = false;
+      removeID.value = "";
+    }
   }
-})
+);
 
 //--------- handle selected employee
 const employeesSelected = ref([]);
 
-const emit = defineEmits(['update:selected', 'update:total'])
-watch(() => employeesSelected.value, () => {
-  emit('update:selected', employeesSelected.value)
-})
+const emit = defineEmits(["update:selected", "update:total"]);
+watch(
+  () => employeesSelected.value,
+  () => {
+    emit("update:selected", employeesSelected.value);
+  }
+);
 // --------------------------------
-
 
 // load employees
 // onBeforeMount(() => {
@@ -113,30 +137,29 @@ watch(() => employeesSelected.value, () => {
 
 //---------------- helpers function
 const appendSubject = (subjects) => {
-  let rs = '';
+  let rs = "";
   for (let i = 0; i < subjects.length; i++) {
     rs += subjects[i].subjectName;
     if (i != rs.length - 1) {
-      rs += ',';
+      rs += ",";
     }
   }
   return rs;
-}
+};
 
 const appendRoom = (rooms) => {
-  let rs = '';
+  let rs = "";
   for (let i = 0; i < rooms.length; i++) {
     rs += rooms[i].roomName;
     if (i != rs.length - 1) {
-      rs += ',';
+      rs += ",";
     }
   }
   return rs;
-}
+};
 // ---------------------------------
 
-
-const showDialog = ref(false)
+const showDialog = ref(false);
 // Show dialog thêm cán bộ, giáo viên khi người
 // dùng lick vào button thêm
 const openDialog = () => {
@@ -155,17 +178,35 @@ watch(
   }
 );
 
-let dataEdit = ref({ employeeName: "Demo" })
+let dataEdit = ref({ employeeName: "Demo" });
 
 function edit(e) {
-  openDialog()
-  console.log(JSON.stringify(e))
-  const data = JSON.parse(JSON.stringify(e))
-  data.rooms = data.rooms.map(e => e.roomID)
-  data.subjects = data.subjects.map(e => e.subjectID)
-  dataEdit.value = data
+  if (e.dayOfResignation) {
+    e.dayOfResignation = e.dayOfResignation.substring(0, 10);
+  }
+  openDialog();
+  console.log(JSON.stringify(e));
+  const data = JSON.parse(JSON.stringify(e));
+  data.rooms = data.rooms.map((e) => e.roomID);
+  data.subjects = data.subjects.map((e) => e.subjectID);
+  dataEdit.value = data;
 }
 
+/**
+ * Xử lý sự kiện check all checkbox
+ * @param {*} e event
+ * @author SONTB (08/11/2022)
+ */
+function onCheckAll(e) {
+  // nếu checked thì add hết value vào selected
+  if (e.target.checked) {
+    employeesSelected.value = [];
+    employeesSelected.value = props.modelValue.data.map((e) => e.employeeID);
+  } else {
+    // Nếu unchecked thì remove các value đã checked
+    employeesSelected.value = [];
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -311,7 +352,6 @@ tr td:first-child {
       vertical-align: middle;
     }
   }
-
 }
 
 .checkbox__input {

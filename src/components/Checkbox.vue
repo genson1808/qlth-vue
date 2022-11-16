@@ -1,15 +1,27 @@
 <template>
   <div class="checkbox" ref="pr" tabindex="0">
-    <input ref="input" type="checkbox" name="checkbox_input" class="checkbox__input" :checked="modelValue" :id="ipId"
-      @change="$emit('update:modelValue', $event.target.checked)" />
-    <label :for="ipId" class="checkbox__checkmark" :class="focus ? 'focus' : ''"></label>
+    <input
+      ref="input"
+      type="checkbox"
+      name="checkbox_input"
+      class="checkbox__input"
+      :checked="modelValue"
+      :id="ipId"
+      @change="$emit('update:modelValue', $event.target.checked)"
+    />
+    <label
+      :for="ipId"
+      class="checkbox__checkmark"
+      :class="focus ? 'focus' : ''"
+    ></label>
   </div>
 </template>
 
 <script setup>
 import UniqueID from "@/helpers/UniqueID.js";
-import { ref } from 'vue';
+import { ref } from "vue";
 
+// unique id cho mỗi checkbox
 const ipId = UniqueID().getID();
 
 const props = defineProps({
@@ -20,7 +32,7 @@ const props = defineProps({
   },
 });
 
-const focus = ref(false)
+const focus = ref(false);
 
 const emits = defineEmits(["update:modelValue"]);
 </script>
@@ -81,8 +93,6 @@ const emits = defineEmits(["update:modelValue"]);
       transform: translateY(-50%);
       border-radius: 4px;
       box-sizing: border-box;
-
-
     }
 
     &:after {
@@ -100,8 +110,6 @@ const emits = defineEmits(["update:modelValue"]);
       transition: 0.25s linear;
       box-sizing: border-box;
     }
-
-
   }
 }
 </style>
