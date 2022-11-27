@@ -26,23 +26,18 @@
 </template>
 
 <script setup>
-import MenuItem from "@/components/MenuItem.vue";
-import { computed, inject } from "@vue/runtime-core";
+import MenuItem from "@/components/layout/home/MenuItem.vue";
+import { inject } from "vue";
 
 // handle states
 const states = inject("states");
 
 function collapse() {
-  console.log("collapse");
   states.collapsed = !states.collapsed;
 }
 
 function activeMenuItem(id) {
   states.menuItemActivated = id;
-}
-
-function getIconUrl(name) {
-  return new URL(`@/assets/Icons/${name}.svg`, import.meta.url).href;
 }
 
 const items = [
@@ -107,34 +102,40 @@ const items = [
       display: flex;
       justify-content: space-between;
       flex-shrink: 0;
+
       .header-logo {
         margin-left: 12px;
         display: flex;
         align-items: center;
         height: 50px;
         text-decoration: none;
+
         .logo-icon {
-          background-image: url(../assets/Icons/ic_IconThietBi.svg);
+          background-image: url(@/assets/Icons/ic_IconThietBi.svg);
           width: 35px;
           height: 35px;
           background-repeat: no-repeat;
         }
+
         .logo-text {
           margin-left: 8px;
           font-size: 16px;
           font-family: OpenSans Semibold;
           color: #ffffff;
         }
+
         &.collapsed {
           display: none;
         }
       }
+
       .menu-toggle {
-        background-image: url(../assets/Icons/ic_sprites.svg);
+        background-image: url(@/assets/Icons/ic_sprites.svg);
         background-repeat: no-repeat;
         background-position: 0 0;
         width: 50px;
         height: 50px;
+
         &:hover {
           cursor: pointer;
         }
@@ -145,6 +146,7 @@ const items = [
       text-decoration: none;
     }
   }
+
   &.collapsed {
     width: 50px;
   }

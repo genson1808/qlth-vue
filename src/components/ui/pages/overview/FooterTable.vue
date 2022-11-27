@@ -49,14 +49,17 @@ const props = defineProps({
   },
   total: {
     type: Number,
+    default: 0,
     required: true,
   },
   pageSize: {
     type: Number,
+    default: 20,
     required: true,
   },
   maxPage: {
     type: Number,
+    default: 1,
     required: true,
   },
 });
@@ -119,7 +122,7 @@ watch(
  * để hạn chế việc all api backend nhiều lần
  * @author SONTB (08/11/2022)
  */
-const onChangeDebounced = debounce((e) => {
+const onChangeDebounced = debounce(() => {
   let newPage = parseInt(page.value);
   if (!newPage || newPage < 1) {
     page.value = props.modelValue;

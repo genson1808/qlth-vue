@@ -19,7 +19,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="e in modelValue.data">
+          <tr v-for="e in modelValue.data" :key="e.employeeCode">
             <td class="df-center">
               <div class="checkbox" ref="pr" tabindex="0">
                 <input
@@ -40,7 +40,7 @@
             <td>{{ appendRoom(e.rooms) }}</td>
             <td class="center">
               <span
-                :class="e.IsEquipmentManagement ? 'data-checked' : ''"
+                :class="e.isEquipmentManagement ? 'data-checked' : ''"
               ></span>
             </td>
             <td class="center">
@@ -69,16 +69,17 @@
     v-if="showDialog"
     v-model="dataEdit"
     v-model:showDialog="showDialog"
-    :formType="edit"
+    formType="edit"
   />
 </template>
 
 <script setup>
-import Checkbox from "@/components/Checkbox.vue";
-import { ref, watch, reactive } from "vue";
+import Checkbox from "@/components/common/BaseCheckbox.vue";
+import { ref, watch } from "vue";
 import { useStore } from "vuex";
 import DialogConfirm from "./DialogConfirm.vue";
-import Dialog from "@/components/Dialog.vue";
+import Dialog from "@/components/ui/pages/overview/EmployeeDialog.vue";
+import * as acs from "@/store/modules/consts.js";
 
 const props = defineProps({
   modelValue: {
@@ -109,9 +110,8 @@ watch(
   () => confirmRemove.value,
   async () => {
     if (confirmRemove.value && removeID.value != "") {
-      console.log("xoas");
-      await store.dispatch("removeEmployee", removeID.value);
-      await store.dispatch("loadEmployees");
+      await store.dispatch(acs.REMOVE_EMPLOYEE_ACTION, removeID.value);
+      await store.dispatch(acs.LOAD_EMPLOYEES_ACTION);
       confirmRemove.value = false;
       removeID.value = "";
     }
@@ -121,7 +121,7 @@ watch(
 //--------- handle selected employee
 const employeesSelected = ref([]);
 
-const emit = defineEmits(["update:selected", "update:total"]);
+const emit = defineEmits(["update:selected"]);
 watch(
   () => employeesSelected.value,
   () => {
@@ -129,11 +129,6 @@ watch(
   }
 );
 // --------------------------------
-
-// load employees
-// onBeforeMount(() => {
-//   store.dispatch("getEmployees", props.modelValue);
-// })
 
 //---------------- helpers function
 const appendSubject = (subjects) => {
@@ -166,26 +161,13 @@ const openDialog = () => {
   showDialog.value = true;
 };
 
-const selectAll = ref(false);
-
-watch(
-  () => selectAll.value,
-  () => {
-    console.log("change", selectAll.value);
-    Data.value.forEach((e) => {
-      e.checked = selectAll.value;
-    });
-  }
-);
-
-let dataEdit = ref({ employeeName: "Demo" });
+let dataEdit = ref({ });
 
 function edit(e) {
   if (e.dayOfResignation) {
     e.dayOfResignation = e.dayOfResignation.substring(0, 10);
   }
   openDialog();
-  console.log(JSON.stringify(e));
   const data = JSON.parse(JSON.stringify(e));
   data.rooms = data.rooms.map((e) => e.roomID);
   data.subjects = data.subjects.map((e) => e.subjectID);
@@ -427,4 +409,27 @@ tr td:first-child {
     }
   }
 }
+
+/* table, */
+/* th, */
+/* td { */
+/*   border: 1px solid black; */
+/* } */
+
+/* table { */
+/*   width: 100%; */
+/*   table-layout: fixed; */
+/*   border-collapse: collapse; */
+/* } */
+
+/* tbody { */
+/*   display: block; */
+/*   width: 100%; */
+/*   overflow: auto; */
+/*   height: 100px; */
+/* } */
+
+/* thead tr { */
+/*   display: block; */
+/* } */
 </style>

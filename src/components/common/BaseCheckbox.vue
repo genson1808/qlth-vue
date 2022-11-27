@@ -24,17 +24,14 @@ import { ref } from "vue";
 // unique id cho mỗi checkbox
 const ipId = UniqueID().getID();
 
-const props = defineProps({
+defineProps({
   modelValue: {
     type: Boolean,
     default: false,
-    required: true,
   },
 });
 
 const focus = ref(false);
-
-const emits = defineEmits(["update:modelValue"]);
 </script>
 
 <style lang="scss" scoped>

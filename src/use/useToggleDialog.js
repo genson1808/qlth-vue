@@ -8,6 +8,5 @@ import { inject } from "vue";
  */
 export function useToggleDialog(stateName, isClose) {
   const states = inject(stateName);
-  console.log(stateName);
   isClose ? (states.dialog.show = false) : (states.dialog.show = true);
 }

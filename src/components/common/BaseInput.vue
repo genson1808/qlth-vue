@@ -3,6 +3,7 @@
     <label for="ip-name" :class="required ? 'required' : ''">{{ label }}</label>
     <div class="ip-wrapper">
       <input
+        ref="input"
         tabindex="0"
         id="ip-name"
         :style="{ width: ipWidth + 'px' }"
@@ -21,7 +22,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import {onMounted, ref, toRef, watch} from "vue";
 const props = defineProps({
   error: {
     type: String,
@@ -51,6 +52,25 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  autoFocus: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+const input = ref(null);
+const checkFocus = toRef(props, 'autoFocus')
+const checkError = toRef(props, 'error')
+watch([() => checkFocus.value, () => checkError.value], () => {
+  if (checkFocus.value) {
+    input.value.focus();
+  }
+})
+
+onMounted(() => {
+  if (props.autoFocus) {
+    input.value.focus();
+  }
 });
 
 /*

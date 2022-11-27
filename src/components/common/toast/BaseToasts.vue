@@ -1,14 +1,14 @@
 <template>
-    <div class="toasts-wrapper" v-if="toasts.length">
-        <Toast v-for="(toast, index) of toasts" :toast="toast" :key="index">
-        </Toast>
-    </div>
+  <div class="toasts-wrapper" v-if="toasts.length">
+    <Toast v-for="(toast, index) of toasts" :toast="toast" :key="index">
+    </Toast>
+  </div>
 </template>
 
 <script setup>
-import Toast from '@/components/Toast.vue';
-import { useStore } from "vuex"
-import { computed } from 'vue';
+import Toast from "@/components/common/toast/BaseToast.vue";
+import { useStore } from "vuex";
+import { computed } from "vue";
 
 const store = useStore();
 const toasts = computed(() => store.getters.toasts);
@@ -24,5 +24,6 @@ const toasts = computed(() => store.getters.toasts);
   position: fixed;
   right: 2rem;
   bottom: 1rem;
+  z-index: 9999;
 }
 </style>

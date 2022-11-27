@@ -30,6 +30,7 @@
           <form id="add-employee-form">
             <div class="form-wrapper">
               <BaseInput
+                :auto-focus="true || focusError == 'code'"
                 :required="true"
                 name="employeeCode"
                 :error="errors.code"
@@ -38,6 +39,7 @@
                 class="form-stack-1"
               />
               <BaseInput
+                :auto-focus="focusError == 'name'"
                 :required="true"
                 name="employeeName"
                 :error="errors.name"
@@ -46,6 +48,7 @@
                 class="form-stack-2"
               />
               <BaseInput
+                :auto-focus="focusError == 'phone'"
                 name="phoneNumber"
                 :error="errors.phone"
                 v-model="employee.phoneNumber"
@@ -53,6 +56,7 @@
                 class="form-stack-3"
               />
               <BaseInput
+                :auto-focus="focusError == 'email'"
                 name="email"
                 :error="errors.email"
                 v-model="employee.email"
@@ -114,12 +118,17 @@
               </div>
               <div class="form-stack-9 input-stack">
                 <div
+                  tabindex="0"
                   class="btn__close--dialog btn btn--white mr-8"
                   @click="closeDialog"
                 >
                   Đóng
                 </div>
-                <div class="btn__save btn btn--green mr-0" @click="submit">
+                <div
+                  tabindex="0"
+                  class="btn__save btn btn--green mr-0"
+                  @click="submit"
+                >
                   Lưu
                 </div>
               </div>
@@ -133,19 +142,20 @@
 </template>
 
 <script setup>
-import BaseInput from "@/components/BaseInput.vue";
-import Combobox from "@/components/Combobox.vue";
-import Dropdown from "@/components/Dropdown.vue";
-import Checkbox from "@/components/Checkbox.vue";
+import BaseInput from "@/components/common/BaseInput.vue";
+import Combobox from "@/components/common/BaseCombobox.vue";
+import Dropdown from "@/components/common/BaseDropdown.vue";
+import Checkbox from "@/components/common/BaseCheckbox.vue";
+import * as acs from "@/store/modules/consts.js";
 
 import { useStore } from "vuex";
-import { validate } from "@/helpers/validator.js";
+import { validate } from "@/services/validator.js";
 import { ref, reactive, watch, computed, onBeforeMount, onMounted } from "vue";
 
 const props = defineProps({
   modelValue: {
     type: Object,
-    default: {
+    default: () => ({
       employeeName: "",
       employeeCode: "",
       phoneNumber: "",
@@ -154,9 +164,9 @@ const props = defineProps({
       subjects: [],
       department: "",
       dayOfResignation: "",
-      IsEquipmentManagement: false,
+      isEquipmentManagement: false,
       isWorking: true,
-    },
+    }),
   },
   showDialog: {
     type: Boolean,
@@ -165,6 +175,7 @@ const props = defineProps({
   formType: {
     type: String,
     default: "create",
+    required: true,
   },
 });
 const emit = defineEmits(["update:modelValue", "update:showDialog"]);
@@ -180,7 +191,7 @@ const store = useStore();
  */
 onBeforeMount(async () => {
   if (props.formType == "create") {
-    await store.dispatch("getRecommendCode");
+    await store.dispatch(acs.GET_RECOMMEND_CODE_ACTION);
   }
 });
 
@@ -189,7 +200,15 @@ const recommendCode = computed(() => {
 });
 
 onMounted(() => {
-  employee.value.employeeCode = recommendCode;
+  if (props.formType == "create") {
+    employee.value.employeeCode = recommendCode.value;
+  }
+});
+
+watch(recommendCode, () => {
+  if (props.formType == "create") {
+    employee.value.employeeCode = recommendCode.value;
+  }
 });
 
 /**
@@ -235,7 +254,6 @@ const getRooms = computed(() => {
  * @author SONTB (10/10/2022)
  */
 const closeDialog = () => {
-  emit("update:showDialog", false);
   employee.value.employeeName = "";
   employee.value.employeeCode = "";
   employee.value.phoneNumber = "";
@@ -244,9 +262,11 @@ const closeDialog = () => {
   employee.value.rooms = [];
   employee.value.subjects = [];
   employee.value.department = "";
-  (employee.value.dayOfResignation = ""),
-    (employee.value.IsEquipmentManagement = false);
+  employee.value.dayOfResignation = "";
+  employee.value.IsEquipmentManagement = false;
   employee.value.isWorking = true;
+
+  emit("update:showDialog", false);
 };
 
 const dialog = ref(null);
@@ -261,6 +281,31 @@ const errors = reactive({
   email: "",
   phone: "",
 });
+
+const focusError = ref("");
+
+watch(
+  () => errors,
+  () => {
+    if (errors.code) {
+      focusError.value = "code";
+      return;
+    }
+    if (errors.name) {
+      focusError.value = "name";
+      return;
+    }
+    if (errors.email) {
+      focusError.value = "email";
+      return;
+    }
+    if (errors.phone) {
+      focusError.value = "phone";
+      return;
+    }
+  },
+  { deep: true }
+);
 
 /**
  * Thực hiện validate các fields
@@ -310,31 +355,60 @@ async function submit() {
 
   if (!errors.code && !errors.name && !errors.email && !errors.phone) {
     try {
+      /*Gán lại data*/
       const data = {
         employeeName: employee.value.employeeName,
         employeeCode: employee.value.employeeCode,
-        email: employee.value.email,
-        phoneNumber: employee.value.phoneNumber,
         rooms: employee.value.rooms,
         subjects: employee.value.subjects,
-        departmentID: employee.value.departmentID,
-        isEquipmentManagement: employee.value.IsEquipmentManagement,
-        isWorking: employee.value.IsWorking,
-        dayOfResignation: employee.value.dayOfResignation,
+        isEquipmentManagement: employee.value.isEquipmentManagement,
+        isWorking: employee.value.isWorking,
       };
 
-      /* call api create employee */
-      await store.dispatch("createEmployee", data);
+      if (employee.value.email) {
+        data.email = employee.value.email;
+      }
+
+      if (employee.value.phoneNumber) {
+        data.phoneNumber = employee.value.phoneNumber;
+      }
+
+      if (employee.value.departmentID) {
+        data.departmentID = employee.value.departmentID;
+      }
+      if (employee.value.dayOfResignation) {
+        data.dayOfResignation = employee.value.dayOfResignation;
+      }
+
+      if (props.formType == "create") {
+        /* call api create employee */
+        await store.dispatch(acs.CREATE_EMPLOYEE_ACTION, data);
+      } else if (props.formType == "edit") {
+        /* call api update employee */
+        data.employeeID = employee.value.employeeID;
+        await store.dispatch(acs.UPDATE_EMPLOYEE_ACTION, data);
+      }
+
       /* sau khi call api thành công thì load lại data thay đổi */
-      await store.dispatch("loadEmployees");
+      await store.dispatch(acs.LOAD_EMPLOYEES_ACTION);
       closeDialog();
     } catch (error) {
-      console.log("error from try catch");
+      debugger;
       var errRes = JSON.parse(error.message);
-      errors["code"] = errRes.MoreInfo.EmployeeCode;
-      errors["name"] = errRes.MoreInfo.EmployeeName;
-      errors["phone"] = errRes.MoreInfo.PhoneNumber;
-      errors["email"] = errRes.MoreInfo.Email.join("\n");
+      if (errRes.MoreInfo) {
+        if (errRes.MoreInfo.EmployeeCode) {
+          errors["code"] = errRes.MoreInfo.EmployeeCode;
+        }
+        if (errRes.MoreInfo.EmployeeName) {
+          errors["name"] = errRes.MoreInfo.EmployeeName;
+        }
+        if (errRes.MoreInfo.PhoneNumber) {
+          errors["phone"] = errRes.MoreInfo.PhoneNumber;
+        }
+        if (errRes.MoreInfo.Email) {
+          errors["email"] = errRes.MoreInfo.Email.join("\n");
+        }
+      }
     }
   }
 }
@@ -404,6 +478,9 @@ async function submit() {
   justify-content: center;
   width: 180px;
   height: 40px;
+  &:hover {
+    background-color: var(--btn-green-hover);
+  }
 }
 
 .btn-upload:hover {
@@ -625,7 +702,7 @@ input[type="date"] {
 }
 
 .input--error {
-  border: "1px solid #ff8b87";
+  border: 1px solid #ff8b87;
 }
 
 .ml-8 {

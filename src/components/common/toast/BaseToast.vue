@@ -13,6 +13,8 @@
 <script setup>
 import { useStore } from "vuex";
 import { computed, onBeforeMount } from "vue";
+import * as acs from "@/store/modules/consts.js";
+import * as rs from "@/resources/resources.vi";
 
 const props = defineProps({
   toast: {
@@ -25,11 +27,11 @@ const store = useStore();
 
 const toastStyle = computed(() => {
   switch (props.toast.type) {
-    case "success":
+    case rs.TOAST_TYPE_SUCCESS:
       return "toast--success";
-    case "error":
+    case rs.TOAST_TYPE_ERROR:
       return "toast--error";
-    case "warning":
+    case rs.TOAST_TYPE_WARNING:
       return "toast--warning";
     default:
       return "toast--info";
@@ -44,7 +46,7 @@ onBeforeMount(() => {
 });
 
 function dismissToast() {
-  store.dispatch("clearToast", props.toast.title);
+  store.dispatch(acs.CLEAR_TOAST_ACTION, props.toast.title);
 }
 </script>
 

@@ -18,9 +18,9 @@
 </template>
 
 <script setup>
-import Sidebar from "@/components/Sidebar.vue";
-import Header from "@/components/Header.vue";
-import NoData from "@/components/NoData.vue";
+import Sidebar from "@/components/layout/home/Sidebar.vue";
+import Header from "@/components/layout/home/Header.vue";
+import NoData from "@/components/ui/pages/nodata/NoData.vue";
 import { useStore } from "vuex";
 import { provide, reactive, computed } from "vue";
 import { useRoute } from "vue-router";
