@@ -13,7 +13,9 @@
     </div>
     <div class="toolbar-right dflex">
       <div class="btn btn--green btn-add" @click="openDialog">Thêm</div>
-      <div class="btn btn--white btn-export">Xuất khẩu</div>
+      <div class="btn btn--white btn-export" @click="exportEmployees">
+        Xuất khẩu
+      </div>
       <div
         class="more-action pointer btn--white"
         @click="showMoreAction = !showMoreAction"
@@ -61,6 +63,18 @@ const props = defineProps({
 
 const emit = defineEmits(["update:modelValue", "update:selected"]);
 const store = useStore();
+
+/**
+ * Xử lý export danh sách cán bộ, giáo viên ra excel
+ * @author SONTB (08/11/2022)
+ */
+async function exportEmployees() {
+  if (props.selected.length > 0) {
+    await store.dispatch(acs.EXPORT_EMPLOYEE_ACTION, props.selected);
+  } else {
+    store.dispatch(acs.SET_ERRORS_ACTION, [rs.REQUIRE_SELECT_EMPL_MSG]);
+  }
+}
 
 /**
  * Xử lý khi người dùng nhập tự nhập trang muốn đến sử dụng kỹ thuật debounce

@@ -18,6 +18,7 @@ export const UPDATE_EMPLOYEE_ACTION = "updateEmployee";
 export const SET_PAGING_ACTION = "setPaging";
 export const RELOAD_PAGING_ACTION = "reloadPaging";
 export const GET_RECOMMEND_CODE_ACTION = "getRecommendCode";
+export const EXPORT_EMPLOYEE_ACTION = "exportEmployees";
 
 // global
 export const SET_LOADING_ACTION = "setLoading";
@@ -75,3 +76,5 @@ export const GETTER_ROOMS = "rooms";
 export const GETTER_SUBJECTS = "subjects";
 
 //--------------------------- getters -------------------------------
+
+export const BASE_URL = "https://4a5b-2a09-bac1-7ae0-68-00-17-26e.ap.ngrok.io";
