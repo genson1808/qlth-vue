@@ -3,7 +3,7 @@
     <div class="dialog__body">
       <div class="dialog__content">
         <div class="dialog__title">{{ title }}</div>
-        <div class="dialog__mesage">{{ message }}</div>
+        <div class="dialog__message">{{ message }}</div>
         <div class="dialog__actions">
           <button
             class="btn btn--white btn-close"
@@ -83,7 +83,7 @@ const confirm = () => {
         margin-bottom: 20px;
       }
 
-      .dialog__mesage {
+      .dialog__message {
         line-height: 20px;
       }
 

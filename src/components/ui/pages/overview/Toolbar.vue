@@ -13,7 +13,9 @@
     </div>
     <div class="toolbar-right dflex">
       <div class="btn btn--green btn-add" @click="openDialog">Thêm</div>
-      <div class="btn btn--white btn-export">Xuất khẩu</div>
+      <div class="btn btn--white btn-export" @click="exportEmployees">
+        Xuất khẩu
+      </div>
       <div
         class="more-action pointer btn--white"
         @click="showMoreAction = !showMoreAction"
@@ -43,8 +45,10 @@
 import { watch, ref, computed } from "vue";
 import { useStore } from "vuex";
 import debounce from "@/helpers/Debounce.js";
-import Dialog from "@/components/Dialog.vue";
-import DialogConfirm from "@/components/DialogConfirm.vue";
+import Dialog from "@/components/ui/pages/overview/EmployeeDialog.vue";
+import DialogConfirm from "@/components/ui/pages/overview/DialogConfirm.vue";
+import * as rs from "@/resources/resources.vi";
+import * as acs from "@/store/modules/consts.js";
 
 const props = defineProps({
   modelValue: {
@@ -61,6 +65,18 @@ const emit = defineEmits(["update:modelValue", "update:selected"]);
 const store = useStore();
 
 /**
+ * Xử lý export danh sách cán bộ, giáo viên ra excel
+ * @author SONTB (08/11/2022)
+ */
+async function exportEmployees() {
+  if (props.selected.length > 0) {
+    await store.dispatch(acs.EXPORT_EMPLOYEE_ACTION, props.selected);
+  } else {
+    store.dispatch(acs.SET_ERRORS_ACTION, [rs.REQUIRE_SELECT_EMPL_MSG]);
+  }
+}
+
+/**
  * Xử lý khi người dùng nhập tự nhập trang muốn đến sử dụng kỹ thuật debounce
  * để hạn chế việc all api backend nhiều lần
  * @author SONTB (08/11/2022)
@@ -72,7 +88,7 @@ const paging = computed(() => {
 
 const keyword = ref("");
 
-const onChangeDebounced = debounce((e) => {
+const onChangeDebounced = debounce(() => {
   var filter = {
     EmployeeName: keyword.value,
   };
@@ -82,7 +98,7 @@ const onChangeDebounced = debounce((e) => {
     pageSize: paging.value.pageSize,
     sorts: paging.value.sorts,
   };
-  store.dispatch("setPaging", newPaging);
+  store.dispatch(acs.SET_PAGING_ACTION, newPaging);
 }, 800);
 
 const showDialog = ref(false);
@@ -104,6 +120,8 @@ const showDialogConfirm = ref(false);
 function remove() {
   if (props.selected.length > 0) {
     showDialogConfirm.value = true;
+  } else {
+    store.dispatch(acs.SET_ERRORS_ACTION, [rs.REQUIRE_SELECT_EMPL_MSG]);
   }
 }
 
@@ -113,10 +131,10 @@ watch(
   () => confirmRemove.value,
   async () => {
     if (confirmRemove.value && props.selected.length > 0) {
-      await store.dispatch("removeEmployees", [...props.selected]);
+      await store.dispatch(acs.REMOVE_EMPLOYEES_ACTION, [...props.selected]);
       // load lại data employee sau khi xoá nhiều
-      await store.dispatch("loadEmployees");
-      store.dispatch("reloadPaging");
+      await store.dispatch(acs.LOAD_EMPLOYEES_ACTION);
+      await store.dispatch(acs.RELOAD_PAGING_ACTION);
       confirmRemove.value = false;
       emit("update:selected", []);
     }

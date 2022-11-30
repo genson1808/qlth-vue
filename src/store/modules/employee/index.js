@@ -1,9 +1,17 @@
 import axios from "axios";
+import { handleError } from "@/services/handleError";
+import * as acs from "@/store/modules/consts";
+import FileSaver from "file-saver";
 
-const baseUrl = "http://localhost:5098/api/v1/employees";
+// const baseUrl = "http://localhost:5098/api/v1/employees";
+const baseUrl =
+  `${acs.BASE_URL}/api/v1/employees`;
 
 const customConfig = {
-  headers: { "Content-Type": "application/json; charset=utf-8" },
+  headers: {
+    "Content-Type": "application/json; charset=utf-8",
+    "ngrok-skip-browser-warning": "any",
+  },
 };
 
 const state = {
@@ -18,13 +26,13 @@ const state = {
 };
 
 const mutations = {
-  GET_EMPLOYEES(state, payload) {
+  SET_EMPLOYEES(state, payload) {
     state.data = payload;
   },
   SET_PAGING(state, payload) {
     state.paging = payload;
   },
-  SET_RECOMMENDCODE(state, payload) {
+  SET_RECOMMEND_CODE(state, payload) {
     state.recommendCode = payload;
   },
 };
@@ -32,7 +40,7 @@ const mutations = {
 const actions = {
   async getEmployees({ commit }, { pageNumber, pageSize, filters, sorts }) {
     try {
-      commit("SET_LOADING", true);
+      commit(acs.SET_LOADING_MUTATION, true);
       const res = await axios.post(
         `${baseUrl}/paging?pageNumber=${pageNumber}&pageSize=${pageSize}`,
         {
@@ -41,105 +49,67 @@ const actions = {
         },
         customConfig
       );
-      commit("GET_EMPLOYEES", res.data);
-      commit("SET_LOADING", false);
-      commit("ADD_TOAST", {
-        title: "call get all",
-        type: "info",
-        message: "call thanh cong",
-      });
+      commit(acs.SET_EMPLOYEES_MUTATION, res.data);
+      commit(acs.SET_LOADING_MUTATION, false);
     } catch (error) {
-      commit("SET_LOADING", false);
-      commit("ADD_TOAST", {
-        title: error.response.status,
-        type: "error",
-        message: error.response.data.UserMsg,
-      });
-      throw new Error(error);
+      commit(acs.SET_LOADING_MUTATION, false);
+      handleError(error.response);
     }
   },
   async removeEmployee({ commit }, employeeID) {
     try {
-      commit("SET_LOADING", true);
+      commit(acs.SET_LOADING_MUTATION, true);
       const res = await axios.delete(`${baseUrl}/${employeeID}`, customConfig);
-      if (res.status == 200) {
-        commit("ADD_TOAST", {
-          title: "Thành công",
-          type: "success",
-          message: "Xoá cán bộ, giáo viên thành công.",
-        });
-      } else {
-        commit("ADD_TOAST", {
-          title: "Thất bại",
-          type: "error",
-          message: res.data.UserMsg,
-        });
-      }
-      commit("SET_LOADING", false);
+      handleError(res);
+      commit(acs.SET_LOADING_MUTATION, false);
     } catch (error) {
-      commit("SET_LOADING", false);
-      commit("ADD_TOAST", {
-        title: error.response.statusText,
-        type: "error",
-        message: error.message,
-      });
+      commit(acs.SET_LOADING_MUTATION, false);
+      handleError(error.response);
     }
   },
   async removeEmployees({ commit }, employeeIDs) {
     try {
-      commit("SET_LOADING", true);
+      commit(acs.SET_LOADING_MUTATION, true);
       const res = await axios.delete(`${baseUrl}/multiple`, {
         data: employeeIDs,
       });
-      if (res.status == 200) {
-        commit("ADD_TOAST", {
-          title: "Thành công",
-          type: "success",
-          message: "Xoá cán bộ, giáo viên thành công.",
-        });
-      } else {
-        commit("ADD_TOAST", {
-          title: "Thất bại",
-          type: "error",
-          message: res.data.UserMsg,
-        });
-      }
-      commit("SET_LOADING", false);
+      handleError(res);
+      commit(acs.SET_LOADING_MUTATION, false);
     } catch (error) {
-      commit("SET_LOADING", false);
-      commit("ADD_TOAST", {
-        title: error.response.statusText,
-        type: "error",
-        message: error.message,
-      });
+      commit(acs.SET_LOADING_MUTATION, false);
+      handleError(error.response);
     }
   },
   async createEmployee({ commit }, employee) {
     try {
-      commit("SET_LOADING", true);
-      const res = await axios.post(baseUrl, employee);
-      commit("SET_LOADING", false);
-      console.log(res);
-      if (res.status == 201) {
-        commit("ADD_TOAST", {
-          title: "Thành công",
-          type: "success",
-          message: "thêm mới cán bộ, giáo viên thành công",
-        });
-      }
+      commit(acs.SET_LOADING_MUTATION, true);
+      const res = await axios.post(baseUrl, employee, customConfig);
+      commit(acs.SET_LOADING_MUTATION, false);
+      handleError(res);
     } catch (e) {
-      console.log(e);
-      commit("SET_LOADING", false);
-      commit("ADD_TOAST", {
-        title: e.response.status,
-        type: "error",
-        message: e.message,
-      });
+      commit(acs.SET_LOADING_MUTATION, false);
+      handleError(e.response);
+      throw new Error(JSON.stringify(e.response.data));
+    }
+  },
+  async updateEmployee({ commit }, employee) {
+    try {
+      commit(acs.SET_LOADING_MUTATION, true);
+      const res = await axios.put(
+        `${baseUrl}/${employee.employeeID}`,
+        employee,
+        customConfig
+      );
+      commit(acs.SET_LOADING_MUTATION, false);
+      handleError(res);
+    } catch (e) {
+      commit(acs.SET_LOADING_MUTATION, false);
+      handleError(e.response);
       throw new Error(JSON.stringify(e.response.data));
     }
   },
   setPaging({ commit }, paging) {
-    commit("SET_PAGING", paging);
+    commit(acs.SET_PAGING_MUTATION, paging);
   },
   reloadPaging({ commit, state }) {
     var newPaging = {
@@ -148,12 +118,12 @@ const actions = {
       filters: state.paging.filters,
       sorts: state.paging.sorts,
     };
-    commit("SET_PAGING", newPaging);
+    commit(acs.SET_PAGING_MUTATION, newPaging);
   },
   async loadEmployees({ commit, state }) {
     try {
       const paging = state.paging;
-      commit("SET_LOADING", true);
+      commit(acs.SET_LOADING_MUTATION, true);
       const res = await axios.post(
         `${baseUrl}/paging?pageNumber=${paging.pageNumber}&pageSize=${paging.pageSize}`,
         {
@@ -162,33 +132,42 @@ const actions = {
         },
         customConfig
       );
-      commit("GET_EMPLOYEES", res.data);
-      commit("SET_LOADING", false);
-      commit("ADD_TOAST", {
-        title: "call get all",
-        type: "info",
-        message: "call thanh cong",
-      });
+      commit(acs.SET_EMPLOYEES_MUTATION, res.data);
+      commit(acs.SET_LOADING_MUTATION, false);
     } catch (error) {
-      commit("SET_LOADING", false);
-      commit("ADD_TOAST", {
-        title: error.response.status,
-        type: "error",
-        message: error.message,
-      });
-      throw new Error(error);
+      commit(acs.SET_LOADING_MUTATION, false);
+      handleError(error.response);
     }
   },
   async getRecommendCode({ commit }) {
     try {
-      const res = await axios.get(`${baseUrl}/code`);
-      commit("SET_RECOMMENDCODE", res.data);
+      const res = await axios.get(`${baseUrl}/code`, customConfig);
+      commit(acs.SET_RECOMMEND_CODE_MUTATION, res.data);
     } catch (error) {
-      commit("ADD_TOAST", {
-        title: error.response.status,
-        type: "error",
-        message: error.response.data.UserMsg,
-      });
+      handleError(error.response);
+    }
+  },
+  async exportEmployees({ commit }, listIds) {
+    try {
+      commit(acs.SET_LOADING_MUTATION, true);
+      const res = await axios.post(
+        `${baseUrl}/export`,
+        {
+          employeeIds: listIds,
+        },
+        {
+          responseType: "blob",
+          timeout: 30000,
+        }
+      );
+      commit(acs.SET_LOADING_MUTATION, false);
+      if (res.status == 200) {
+        await FileSaver(res.data, "Danh-sach-can-bo-giao-vien.xlsx");
+      }
+      handleError(res);
+    } catch (error) {
+      commit(acs.SET_LOADING_MUTATION, false);
+      handleError(error.response);
     }
   },
 };

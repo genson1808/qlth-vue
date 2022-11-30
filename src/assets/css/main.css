@@ -50,3 +50,8 @@ body {
 .not-allowed {
   cursor: not-allowed !important;
 }
+
+input[type="date"], input[type="time"] {
+  font-family: OpenSans;
+  font-size: 13px;
+}

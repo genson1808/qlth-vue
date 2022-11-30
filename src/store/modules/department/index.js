@@ -1,13 +1,24 @@
 import axios from "axios";
+import { handleError } from "@/services/handleError";
+import * as acs from "@/store/modules/consts";
 
-const baseUrl = "http://localhost:5098/api/v1/departments";
+// const baseUrl = "http://localhost:5098/api/v1/departments";
+const baseUrl =
+  `${acs.BASE_URL}/api/v1/departments`;
+
+const customConfig = {
+  headers: {
+    "Content-Type": "application/json; charset=utf-8",
+    "ngrok-skip-browser-warning": "any",
+  },
+};
 
 const state = {
   data: {},
 };
 
 const mutations = {
-  GET_DEPARTMENTS(state, payload) {
+  SET_DEPARTMENTS(state, payload) {
     state.data = payload;
   },
 };
@@ -15,18 +26,14 @@ const mutations = {
 const actions = {
   async getDepartments({ commit }) {
     try {
-      commit("SET_LOADING", true);
-      const res = await axios.get(baseUrl);
+      commit(acs.SET_LOADING_MUTATION, true);
+      const res = await axios.get(baseUrl, customConfig);
 
-      commit("GET_DEPARTMENTS", res.data);
-      commit("SET_LOADING", false);
+      commit(acs.SET_DEPARTMENTS_MUTATION, res.data);
+      commit(acs.SET_LOADING_MUTATION, false);
     } catch (error) {
-      commit("SET_LOADING", false);
-      commit("ADD_TOAST", {
-        title: error.response.status,
-        type: "error",
-        message: error.message,
-      });
+      commit(acs.SET_LOADING_MUTATION, false);
+      handleError(error.message);
     }
   },
 };

@@ -31,7 +31,7 @@
           </div>
           <div class="title">Tất cả</div>
         </li>
-        <li class="combobox__item" v-for="[value, title] in data">
+        <li class="combobox__item" v-for="[value, title] in data" :key="value">
           <div class="checkbox" ref="pr" tabindex="0">
             <input
               v-model="selected"
@@ -99,9 +99,12 @@ useClickOutside(showItem, parent, () => {
  */
 const selected = ref([]);
 
-watch(selected, () => {
-  emit("update:modelValue", selected);
-});
+watch(
+  () => selected.value,
+  () => {
+    emit("update:modelValue", selected);
+  }
+);
 
 /**
  * Xử lý remove tag
@@ -116,7 +119,7 @@ function remove(id) {
  * @author SONTB (08/11/2022)
  */
 function removeAll() {
-  selected.value = selected.value.splice(0, selected.length);
+  selected.value = [];
 }
 
 /**
@@ -133,7 +136,7 @@ function onCheckAll(e) {
     }
   } else {
     // Nếu unchecked thì remove các value đã checked
-    selected.value = selected.value.splice(0, selected.length);
+    selected.value = [];
   }
 }
 

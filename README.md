@@ -16,5 +16,30 @@ npm run dev
 npm run build
 ```
 
-[] table data xu ly check and uncheck all
-[x] xu ly cacs button phan trang
+# Feature 
+## view, paging 
+![](./assets/demo-1.png)
+![](./assets/demo-2.png)
+
+## seach employe by name
+![](./assets/search-by-name.png)
+
+## search employee by phone
+![](./assets/search-by-phone.png)
+
+## add employee 
+![](./assets/add.png)
+
+## edit employee 
+![](./assets/edit-1.png)
+![](./assets/edit-2.png)
+![](./assets/edit-2.png)
+
+## validate 
+![](./assets/validate.png)
+![](./assets/validate-2.png)
+![](./assets/validate-3.png)
+
+# export to excel
+![](./assets/export-excel.png)
+
